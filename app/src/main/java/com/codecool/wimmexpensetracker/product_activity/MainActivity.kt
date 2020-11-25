@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity(), MainActivityContractor {
         }.attach()
     }
 
-    override fun setMenuTitle(menuTitle: String) {
-        findViewById<TextView>(R.id.menu_title)
+    override fun setSubMenuTitle(menuTitle: String) {
+        findViewById<TextView>(R.id.sub_menu)
                 .text = menuTitle
     }
 
-    override fun setPageTitle(pageTitle: String) {
-        findViewById<TextView>(R.id.sub_menu)
+    override fun setMenuTitle(pageTitle: String) {
+        findViewById<TextView>(R.id.menu_title)
                 .text = pageTitle
     }
 }
