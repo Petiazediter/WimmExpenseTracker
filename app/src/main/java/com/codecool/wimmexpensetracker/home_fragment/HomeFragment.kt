@@ -19,7 +19,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivityContractor)?.let{
+        (activity as MainActivityContractor).let{
             it.setMenuTitle(resources.getString(R.string.home_fragment_title))
             it.setSubMenuTitle(resources.getString(R.string.settings_fragment_title))
         }

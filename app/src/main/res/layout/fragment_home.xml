@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".home_fragment.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/dark_gray"
+        app:cardElevation="5dp"
+        app:layout_constraintDimensionRatio="1:.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".95">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/date_tv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textColor="@color/light_gray"
+                android:textSize="19sp"
+                tools:text="14, November, 2020"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/remaining_money"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center"
+                android:textColor="@color/light_gray"
+                android:textSize="48sp"
+                tools:text="$75.43"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="@string/daily_sub_text"
+                android:gravity="center"
+                android:fontFamily="@font/ubuntu_bold"
+                android:textColor="@color/light_gray"
+                android:textSize="19sp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
