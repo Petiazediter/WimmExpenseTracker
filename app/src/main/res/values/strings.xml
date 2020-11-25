@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">WimmExpenseTracker</string>
     <string name="company_name">Wimm</string>
+    <string name="product_name">Expense tracker</string>
 </resources>
