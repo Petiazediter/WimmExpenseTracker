@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".product_activity.MainActivity"
-    android:background="?attr/backgroundColor">
+    style="@style/ApplicationBaseSettings">
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
