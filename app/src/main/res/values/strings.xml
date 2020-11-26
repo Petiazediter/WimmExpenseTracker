@@ -7,4 +7,6 @@
     <string name="home_fragment_title">Home</string>
     <string name="settings_fragment_title">Settings</string>
     <string name="daily_sub_text">Remaining budget</string>
+    <string name="daily_total">daily total</string>
+    <string name="daily_budget">daily budget</string>
 </resources>
