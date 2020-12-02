@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.codecool.wimmexpensetracker.R
+import com.codecool.wimmexpensetracker.data.SharedPreferenceController
 import com.codecool.wimmexpensetracker.product_activity.MainActivity
 import com.codecool.wimmexpensetracker.room_db.AppDatabase
 
@@ -35,6 +36,7 @@ class SplashActivity : AppCompatActivity() {
                 // Create the database. It'll store it to the AppDatabase database variable
                 // so don't need to get the database with context anymore.
                 AppDatabase.getDatabase(applicationContext)
+                SharedPreferenceController.setUpSharedPreferences(applicationContext)
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     val activity = Intent(applicationContext,MainActivity::class.java)

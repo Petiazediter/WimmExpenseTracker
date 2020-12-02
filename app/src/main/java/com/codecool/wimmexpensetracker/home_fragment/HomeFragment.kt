@@ -1,5 +1,6 @@
 package com.codecool.wimmexpensetracker.home_fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,14 +11,14 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.codecool.wimmexpensetracker.R
+import com.codecool.wimmexpensetracker.data.SharedPreferenceController
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
-import com.codecool.wimmexpensetracker.room_db.AppDatabase
-import com.codecool.wimmexpensetracker.room_db.Expense
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.time.LocalDateTime
-import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -46,20 +47,34 @@ class HomeFragment : Fragment() {
         setUpTexts()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setUpTexts(){
-        remainingBudgetDate?.text = viewModel.getUserExpenses()?.value?.size.toString()
+        //dailyBudget?.text = "$${SharedPreferenceController.getBudget().toString()}"
+        //remainingBudgetDate?.text = viewModel.getUserExpenses()?.value?.size.toString()
+
+        remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
+
         viewModel.getUserExpenses()?.observe(viewLifecycleOwner, {
-            remainingBudgetDate?.text = it.size.toString()
+            processTexts(SharedPreferenceController.getBudget(), it.map{ expense -> expense.amount}.sum())
         })
 
         GlobalScope.launch { getDatabaseFun() }
     }
 
+    private fun processTexts( budget : Float, expenseSum : Float){
+        dailyBudget?.text = "$${budget}"
+        dailyTotal?.text = "$${expenseSum}"
+        val df : DecimalFormat = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        remainingMoney?.text = "$${df.format((budget - expenseSum))}"
+    }
+
+
     fun getDatabaseFun(){
-        AppDatabase.getDatabase(null)?.ExpenseDao()
-                ?.insertExpense(
-                        Expense(UUID.randomUUID().toString(), LocalDateTime.now().year, LocalDateTime.now().monthValue, LocalDateTime.now().dayOfMonth,55.2f, "ads")
-                )
+       // AppDatabase.getDatabase(null)?.ExpenseDao()
+       //         ?.insertExpense(
+       //                 Expense(UUID.randomUUID().toString(), LocalDateTime.now().year, LocalDateTime.now().monthValue, LocalDateTime.now().dayOfMonth,55.2f, "ads")
+       //         )
     }
 
     private fun bindViews(view: View){
@@ -83,7 +98,6 @@ class HomeFragment : Fragment() {
         pairAnimation(remainingMoney,listOf(remainingBudget,remainingBudgetDate))
         pairAnimation(dailyTotal,listOf(dailyTotalSub))
         pairAnimation(dailyBudget, listOf(dailyBudgetSub))
-
     }
 
     override fun onPause() {
