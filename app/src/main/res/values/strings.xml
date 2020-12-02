@@ -9,4 +9,5 @@
     <string name="daily_sub_text">Remaining budget</string>
     <string name="daily_total">daily total</string>
     <string name="daily_budget">daily budget</string>
+    <string name="categories">Categories</string>
 </resources>
