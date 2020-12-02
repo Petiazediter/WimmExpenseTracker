@@ -48,6 +48,7 @@
                 tools:text="$45.40" />
 
             <TextView
+                android:id="@+id/remaining_budget"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -89,6 +90,7 @@
                 tools:text="$29.60" />
 
             <TextView
+                android:id="@+id/daily_total_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -130,6 +132,7 @@
                 tools:text="$75.00" />
 
             <TextView
+                android:id="@+id/daily_budget_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
