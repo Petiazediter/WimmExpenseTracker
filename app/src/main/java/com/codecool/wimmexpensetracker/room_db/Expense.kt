@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "expenses")
 data class Expense (
         @PrimaryKey val uid : String,
+        val title : String,
         val year : Int,
         val month : Int,
         val day : Int,

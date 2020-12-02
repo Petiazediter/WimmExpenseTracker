@@ -9,7 +9,8 @@ import com.codecool.wimmexpensetracker.room_db.Expense
 class HomeFragmentViewModel : ViewModel() {
 
     private lateinit var mHomeFragmentRepository : HomeFragmentRepository
-    private var userExpenses : MutableLiveData<List<Expense>>? = null
+    var userExpenses : MutableLiveData<List<Expense>>? = null
+    var lastMonthExpenses : MutableLiveData<HashMap<Int,List<Expense>>>? = null
 
     fun init(lifecycleOwner: LifecycleOwner){
         if  (userExpenses != null){
@@ -17,8 +18,7 @@ class HomeFragmentViewModel : ViewModel() {
         }
         mHomeFragmentRepository = HomeFragmentRepository.getInstance(lifecycleOwner)!!
         userExpenses = mHomeFragmentRepository.getExpenses()
+        lastMonthExpenses = mHomeFragmentRepository.getLastFiveMonthExpenses()
     }
-
-    fun getUserExpenses() : MutableLiveData<List<Expense>>? = userExpenses
 
 }

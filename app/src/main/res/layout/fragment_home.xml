@@ -157,11 +157,11 @@
         app:layout_constraintRight_toRightOf="@id/budget_container"
         app:layout_constraintTop_toBottomOf="@id/budget_card_container">
 
-        <androidx.cardview.widget.CardView
+        <com.anychart.AnyChartView
+            android:id="@+id/any_chart_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/light_gray" />
+            android:layout_weight="1" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 package com.codecool.wimmexpensetracker.mvvm.repositories
 
-import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.codecool.wimmexpensetracker.room_db.AppDatabase
@@ -9,6 +8,7 @@ import java.time.LocalDateTime
 
 class HomeFragmentRepository(val lifecycleOwner: LifecycleOwner){
     private lateinit var dataSet : List<Expense>
+    private var lastMonthDataset : HashMap<Int,List<Expense>> = HashMap<Int,List<Expense>>()
 
 
     fun getExpenses() : MutableLiveData<List<Expense>>{
@@ -20,6 +20,30 @@ class HomeFragmentRepository(val lifecycleOwner: LifecycleOwner){
                 dataSet = it
                 data.value = dataSet
             })
+        }
+
+        return data
+    }
+
+    fun getLastFiveMonthExpenses(): MutableLiveData<HashMap<Int,List<Expense>>>? {
+        val data = MutableLiveData<HashMap<Int,List<Expense>>>()
+        data.value = hashMapOf()
+
+        val dateNow = Pair<Int,Int>(LocalDateTime.now().year, LocalDateTime.now().monthValue)
+
+        val searchedMonts = ArrayList<Pair<Int,Int>>()
+        for ( i in 0 until 5){
+            searchedMonts.add(
+                    Pair( if ( dateNow.second - i > 0) dateNow.first else dateNow.first - 1, if ( dateNow.second - i > 0) (dateNow.second - i) else 13 - i ))
+        }
+
+        for ( value in searchedMonts) {
+            AppDatabase.getDatabase(null)?.let { appDatabase ->
+                appDatabase.ExpenseDao().getExpensesByMonth(value.first,value.second).observe(lifecycleOwner, {
+                    lastMonthDataset[value.second] = it
+                    data.value = lastMonthDataset
+                })
+            }
         }
 
         return data

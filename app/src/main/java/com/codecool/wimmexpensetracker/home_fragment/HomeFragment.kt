@@ -2,6 +2,9 @@ package com.codecool.wimmexpensetracker.home_fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.renderscript.Sampler
+import android.util.Log
+import android.util.MonthDisplayHelper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +13,23 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.anychart.AnyChart
+import com.anychart.AnyChartView
+import com.anychart.chart.common.dataentry.DataEntry
+import com.anychart.chart.common.dataentry.ValueDataEntry
+import com.anychart.core.ui.table.Column
+import com.anychart.enums.Anchor
+import com.anychart.enums.HoverMode
+import com.anychart.enums.Position
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
+import com.codecool.wimmexpensetracker.room_db.Expense
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.time.LocalDateTime
+import java.time.Month
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +44,8 @@ class HomeFragment : Fragment() {
     private var dailyBudgetSub : TextView? = null
 
     lateinit var viewModel : HomeFragmentViewModel
+
+    lateinit var anyChartView : AnyChartView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -48,10 +63,43 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setUpTexts(){
         remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
-
-        viewModel.getUserExpenses()?.observe(viewLifecycleOwner, {
+        viewModel.userExpenses?.observe(viewLifecycleOwner, {
             processTexts(SharedPreferenceController.getBudget(), it.map{ expense -> expense.amount}.sum())
         })
+
+        viewModel.lastMonthExpenses?.observe(viewLifecycleOwner,{ hash ->
+            setUpChart(hash.map{Pair(it.key,it.value)})
+        })
+    }
+
+    private fun setUpChart(list : List<Pair<Int,List<Expense>>>){
+        Log.d("HomeFragment", "setUpChart() -> ${list.size}")
+        val cartesian = AnyChart.column()
+        val data = ArrayList<DataEntry>()
+        for ( value in list ){
+            data.add ( ValueDataEntry(
+                    Month.of(value.first).name,
+                    value.second.map{it.amount}.sum() )
+            )
+        }
+        val column = cartesian.column(data)
+        column.tooltip()
+            .titleFormat("{%X}")
+            .position(Position.CENTER)
+            .anchor(Anchor.CENTER_BOTTOM)
+            .offsetX(0)
+            .offsetY(5)
+
+        cartesian.animation(true)
+        cartesian.yScale().minimum(0)
+
+        cartesian.interactivity().hoverMode(HoverMode.BY_X);
+
+        cartesian.xAxis(0).title(resources.getString(R.string.month));
+        cartesian.yAxis(0).title(resources.getString(R.string.spending));
+
+        anyChartView.setChart(cartesian)
+        anyChartView.visibility = View.VISIBLE
     }
 
     private fun processTexts( budget : Float, expenseSum : Float){
@@ -66,10 +114,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-
-
     private fun bindViews(view: View){
+        anyChartView = view.findViewById(R.id.any_chart_view)
+
         remainingMoney = view.findViewById(R.id.remaining_money)
         remainingBudget = view.findViewById(R.id.remaining_budget)
         remainingBudgetDate = view.findViewById(R.id.date_tv)

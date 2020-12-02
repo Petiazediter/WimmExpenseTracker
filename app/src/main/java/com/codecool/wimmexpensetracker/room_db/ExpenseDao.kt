@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import java.util.*
 
 @Dao
 interface ExpenseDao {
@@ -13,6 +12,9 @@ interface ExpenseDao {
     fun getExpensesByDate(year: Int, month : Int, day : Int)
             : LiveData<List<Expense>>
 
+    @Query("SELECT * FROM expenses WHERE year = :year AND month = :month")
+    fun getExpensesByMonth(year: Int,month: Int)
+        :LiveData<List<Expense>>
 
     @Insert fun insertExpense(expense: Expense)
 }
