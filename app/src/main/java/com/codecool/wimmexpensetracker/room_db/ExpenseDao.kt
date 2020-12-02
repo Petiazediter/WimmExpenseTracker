@@ -7,8 +7,8 @@ import java.util.*
 @Dao
 interface ExpenseDao {
 
-    @Query("SELECT * FROM expenses WHERE date = :queryDate")
-    fun getExpensesByDate(queryDate: Date) : ArrayList<Expense>
+    @Query("SELECT * FROM expenses WHERE year = :year AND month = :month AND day = :day")
+    fun getExpensesByDate(year: Int, month : Int, day : Int) : List<Expense>
 
 
 }

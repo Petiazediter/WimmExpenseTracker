@@ -26,14 +26,6 @@ class HomeFragment : Fragment() {
     private var dailyBudgetSub : TextView? = null
 
     lateinit var viewModel : HomeFragmentViewModel
-    override fun onStart() {
-        super.onStart()
-        viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
-        viewModel.init()
-        viewModel.getUserExpenses().observe(this, {
-
-        })
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -42,13 +34,17 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
+        viewModel.init()
         bindViews(view)
         setUpTexts()
-        remainingMoney?.text = "$50"
     }
 
     private fun setUpTexts(){
-
+        remainingBudgetDate?.text = viewModel.getUserExpenses().value?.size.toString()
+        viewModel.getUserExpenses().observe(viewLifecycleOwner, {
+            remainingBudgetDate?.text = it.size.toString()
+        })
     }
 
     private fun bindViews(view: View){
