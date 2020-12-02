@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.animation.Interpolator
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
+import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
 
 class HomeFragment : Fragment() {
 
@@ -23,6 +24,16 @@ class HomeFragment : Fragment() {
 
     private var dailyBudget : TextView? = null
     private var dailyBudgetSub : TextView? = null
+
+    lateinit var viewModel : HomeFragmentViewModel
+    override fun onStart() {
+        super.onStart()
+        viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
+        viewModel.init()
+        viewModel.getUserExpenses().observe(this, {
+
+        })
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
