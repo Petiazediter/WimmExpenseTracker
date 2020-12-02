@@ -47,6 +47,8 @@ class HomeFragment : Fragment() {
 
     private var dailyBudget : TextView? = null
     private var dailyBudgetSub : TextView? = null
+    private var monthDateTV : TextView? = null
+    private var allExpenses : TextView? = null
 
     lateinit var viewModel : HomeFragmentViewModel
 
@@ -75,7 +77,8 @@ class HomeFragment : Fragment() {
         viewModel.userExpenses?.observe(viewLifecycleOwner, {
             processTexts(
                 SharedPreferenceController.getBudget(),
-                it.map { expense -> expense.amount }.sum()
+                it.map { expense -> expense.amount }.sum(),
+                it
             )
         })
 
@@ -90,22 +93,14 @@ class HomeFragment : Fragment() {
         anyChartView.setMaxVisibleValueCount(5)
         anyChartView.description.isEnabled = false
 
-        val xAxis = anyChartView.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        xAxis.labelCount = 7
-        xAxis.granularity = 1f
-        xAxis.isEnabled = false
+        anyChartView.xAxis.isEnabled = false
 
         val yAxis = anyChartView.axisLeft
         yAxis.axisMinimum = 0f
         yAxis.setDrawGridLines(false)
         yAxis.spaceTop = 15f
 
-        val yAxis2 = anyChartView.axisRight
-        yAxis2.axisMinimum = 0f
-        yAxis2.spaceTop = 15f
-        yAxis2.setDrawGridLines(false)
+        anyChartView.axisRight.isEnabled = false
 
 
         val barDataSetList = ArrayList<IBarDataSet>()
@@ -124,7 +119,11 @@ class HomeFragment : Fragment() {
         anyChartView.invalidate()
     }
 
-    private fun processTexts(budget: Float, expenseSum: Float){
+    @SuppressLint("SetTextI18n")
+    private fun processTexts(budget: Float, expenseSum: Float, list : List<Expense>){
+
+        monthDateTV?.text = "${LocalDateTime.now().month.name},${LocalDateTime.now().year}"
+        allExpenses?.text = "${list.size} " + resources.getString(R.string.expenses)
         dailyBudget?.text = "$${budget}"
         dailyTotal?.text = "$${expenseSum}"
         val df = DecimalFormat("#.##")
@@ -148,6 +147,9 @@ class HomeFragment : Fragment() {
 
         dailyBudget = view.findViewById(R.id.daily_budget)
         dailyBudgetSub = view.findViewById(R.id.daily_budget_sub)
+
+        monthDateTV = view.findViewById(R.id.date_month_tv)
+        allExpenses = view.findViewById(R.id.all_expenses)
     }
 
     override fun onResume() {
@@ -160,6 +162,7 @@ class HomeFragment : Fragment() {
         pairAnimation(remainingMoney, listOf(remainingBudget, remainingBudgetDate))
         pairAnimation(dailyTotal, listOf(dailyTotalSub))
         pairAnimation(dailyBudget, listOf(dailyBudgetSub))
+        pairAnimation(monthDateTV,listOf(allExpenses))
     }
 
     override fun onPause() {
