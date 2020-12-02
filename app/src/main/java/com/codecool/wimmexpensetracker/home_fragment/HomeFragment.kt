@@ -2,34 +2,31 @@ package com.codecool.wimmexpensetracker.home_fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.renderscript.Sampler
-import android.util.Log
-import android.util.MonthDisplayHelper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.anychart.AnyChart
-import com.anychart.AnyChartView
-import com.anychart.chart.common.dataentry.DataEntry
-import com.anychart.chart.common.dataentry.ValueDataEntry
-import com.anychart.core.ui.table.Column
-import com.anychart.enums.Anchor
-import com.anychart.enums.HoverMode
-import com.anychart.enums.Position
+import com.anychart.graphics.vector.Fill
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
-import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
+import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Expense
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.Month
+
 
 class HomeFragment : Fragment() {
 
@@ -45,9 +42,13 @@ class HomeFragment : Fragment() {
 
     lateinit var viewModel : HomeFragmentViewModel
 
-    lateinit var anyChartView : AnyChartView
+    lateinit var anyChartView : BarChart
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
@@ -64,15 +65,18 @@ class HomeFragment : Fragment() {
     private fun setUpTexts(){
         remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
         viewModel.userExpenses?.observe(viewLifecycleOwner, {
-            processTexts(SharedPreferenceController.getBudget(), it.map{ expense -> expense.amount}.sum())
+            processTexts(
+                SharedPreferenceController.getBudget(),
+                it.map { expense -> expense.amount }.sum()
+            )
         })
 
-        viewModel.lastMonthExpenses?.observe(viewLifecycleOwner,{ hash ->
-            setUpChart(hash.map{Pair(it.key,it.value)})
+        viewModel.lastMonthExpenses?.observe(viewLifecycleOwner, { hash ->
+            setUpChart(hash.map { Pair(it.key, it.value) })
         })
     }
 
-    private fun setUpChart(list : List<Pair<Int,List<Expense>>>){
+   /* private fun setUpChart(list : List<Pair<Int,List<Expense>>>){
         Log.d("HomeFragment", "setUpChart() -> ${list.size}")
         val cartesian = AnyChart.column()
         val data = ArrayList<DataEntry>()
@@ -82,6 +86,7 @@ class HomeFragment : Fragment() {
                     value.second.map{it.amount}.sum() )
             )
         }
+
         val column = cartesian.column(data)
         column.tooltip()
             .titleFormat("{%X}")
@@ -95,14 +100,31 @@ class HomeFragment : Fragment() {
 
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
-        cartesian.xAxis(0).title(resources.getString(R.string.month));
-        cartesian.yAxis(0).title(resources.getString(R.string.spending));
+        cartesian.xAxis(0).title("asd");
+        cartesian.yAxis(0).title("asd");
 
         anyChartView.setChart(cartesian)
-        anyChartView.visibility = View.VISIBLE
+    }*/
+
+    private fun setUpChart(list: List<Pair<Int, List<Expense>>>){
+        anyChartView.setDrawBarShadow(false)
+        anyChartView.setDrawValueAboveBar(true)
+        anyChartView.description.isEnabled = false
+        anyChartView.setMaxVisibleValueCount(5)
+        anyChartView.setPinchZoom(false)
+        anyChartView.setDrawGridBackground(false)
+
+        val barDataSetList = ArrayList<IBarDataSet>()
+        list.forEachIndexed{ index,pair ->
+            val barEntryList = ArrayList<BarEntry>()
+            barEntryList.add ( BarEntry(index.toFloat(),pair.second.map { it.amount }.sum()) )
+            barDataSetList.add(BarDataSet(barEntryList,Month.of(pair.first).name))
+        }
+        val barData = BarData(barDataSetList)
+        anyChartView.data = barData
     }
 
-    private fun processTexts( budget : Float, expenseSum : Float){
+    private fun processTexts(budget: Float, expenseSum: Float){
         dailyBudget?.text = "$${budget}"
         dailyTotal?.text = "$${expenseSum}"
         val df : DecimalFormat = DecimalFormat("#.##")
@@ -110,7 +132,7 @@ class HomeFragment : Fragment() {
         val remainingMon = (budget - expenseSum)
         remainingMoney?.text = "$${df.format(remainingMon)}"
         if ( remainingMon < 0){
-            remainingMoney?.setTextColor(resources.getColor(R.color.color_lightRed,context?.theme))
+            remainingMoney?.setTextColor(resources.getColor(R.color.color_lightRed, context?.theme))
         }
     }
 
@@ -135,8 +157,8 @@ class HomeFragment : Fragment() {
             it.setSubMenuTitle(resources.getString(R.string.settings_fragment_title))
         }
         remainingBudgetDate?.alpha = 0f
-        pairAnimation(remainingMoney,listOf(remainingBudget,remainingBudgetDate))
-        pairAnimation(dailyTotal,listOf(dailyTotalSub))
+        pairAnimation(remainingMoney, listOf(remainingBudget, remainingBudgetDate))
+        pairAnimation(dailyTotal, listOf(dailyTotalSub))
         pairAnimation(dailyBudget, listOf(dailyBudgetSub))
     }
 
@@ -151,8 +173,8 @@ class HomeFragment : Fragment() {
         dailyBudgetSub?.alpha = 0f
     }
 
-    private fun pairAnimation (parentTv : TextView?, subTv : List<TextView?>){
-        val animation = AnimationUtils.loadAnimation(context,R.anim.text_animations)
+    private fun pairAnimation(parentTv: TextView?, subTv: List<TextView?>){
+        val animation = AnimationUtils.loadAnimation(context, R.anim.text_animations)
         for ( v in subTv) {v?.alpha = 0f}
         animation.startOffset = 0
         animation.duration = 500
@@ -160,14 +182,14 @@ class HomeFragment : Fragment() {
 
         parentTv?.startAnimation(animation)
         parentTv?.alpha = 1f
-        animation.setAnimationListener(object : Animation.AnimationListener{
+        animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(p0: Animation?) {}
 
             override fun onAnimationEnd(p0: Animation?) {
-                val anim = AnimationUtils.loadAnimation(context,R.anim.text_animations)
+                val anim = AnimationUtils.loadAnimation(context, R.anim.text_animations)
                 anim.duration = 500
                 anim.startOffset = 0
-                for ( v in subTv) {
+                for (v in subTv) {
                     v?.startAnimation(anim)
                     v?.alpha = 1f
                 }
