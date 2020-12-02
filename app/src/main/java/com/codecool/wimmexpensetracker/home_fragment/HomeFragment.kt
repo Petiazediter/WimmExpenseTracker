@@ -14,8 +14,6 @@ import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.time.LocalDateTime
@@ -49,16 +47,11 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setUpTexts(){
-        //dailyBudget?.text = "$${SharedPreferenceController.getBudget().toString()}"
-        //remainingBudgetDate?.text = viewModel.getUserExpenses()?.value?.size.toString()
-
         remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
 
         viewModel.getUserExpenses()?.observe(viewLifecycleOwner, {
             processTexts(SharedPreferenceController.getBudget(), it.map{ expense -> expense.amount}.sum())
         })
-
-        GlobalScope.launch { getDatabaseFun() }
     }
 
     private fun processTexts( budget : Float, expenseSum : Float){
@@ -66,16 +59,15 @@ class HomeFragment : Fragment() {
         dailyTotal?.text = "$${expenseSum}"
         val df : DecimalFormat = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.CEILING
-        remainingMoney?.text = "$${df.format((budget - expenseSum))}"
+        val remainingMon = (budget - expenseSum)
+        remainingMoney?.text = "$${df.format(remainingMon)}"
+        if ( remainingMon < 0){
+            remainingMoney?.setTextColor(resources.getColor(R.color.color_lightRed,context?.theme))
+        }
     }
 
 
-    fun getDatabaseFun(){
-       // AppDatabase.getDatabase(null)?.ExpenseDao()
-       //         ?.insertExpense(
-       //                 Expense(UUID.randomUUID().toString(), LocalDateTime.now().year, LocalDateTime.now().monthValue, LocalDateTime.now().dayOfMonth,55.2f, "ads")
-       //         )
-    }
+
 
     private fun bindViews(view: View){
         remainingMoney = view.findViewById(R.id.remaining_money)
@@ -95,6 +87,7 @@ class HomeFragment : Fragment() {
             it.setMenuTitle(resources.getString(R.string.home_fragment_title))
             it.setSubMenuTitle(resources.getString(R.string.settings_fragment_title))
         }
+        remainingBudgetDate?.alpha = 0f
         pairAnimation(remainingMoney,listOf(remainingBudget,remainingBudgetDate))
         pairAnimation(dailyTotal,listOf(dailyTotalSub))
         pairAnimation(dailyBudget, listOf(dailyBudgetSub))
