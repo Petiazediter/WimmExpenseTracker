@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "categories")
 data class Category (
-    @PrimaryKey val uId : Int,
+    @PrimaryKey val uId : String,
     @ColumnInfo(name="category_name") val categoryName : String,
     @ColumnInfo(name="category_color") val colorId : Int
 )

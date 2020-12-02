@@ -24,15 +24,23 @@ class HomeFragment : Fragment() {
     private var dailyBudget : TextView? = null
     private var dailyBudgetSub : TextView? = null
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindViews(view)
+        setUpTexts()
+        remainingMoney?.text = "$50"
+    }
+
+    fun setUpTexts(){
+
+    }
+
+    private fun bindViews(view: View){
         remainingMoney = view.findViewById(R.id.remaining_money)
         remainingBudget = view.findViewById(R.id.remaining_budget)
         remainingBudgetDate = view.findViewById(R.id.date_tv)
@@ -42,9 +50,6 @@ class HomeFragment : Fragment() {
 
         dailyBudget = view.findViewById(R.id.daily_budget)
         dailyBudgetSub = view.findViewById(R.id.daily_budget_sub)
-
-        remainingMoney?.text = "$50"
-
     }
 
     override fun onResume() {
@@ -70,7 +75,7 @@ class HomeFragment : Fragment() {
         dailyBudgetSub?.alpha = 0f
     }
 
-    fun pairAnimation (parentTv : TextView?, subTv : List<TextView?>){
+    private fun pairAnimation (parentTv : TextView?, subTv : List<TextView?>){
         val animation = AnimationUtils.loadAnimation(context,R.anim.text_animations)
         for ( v in subTv) {v?.alpha = 0f}
         animation.startOffset = 0
