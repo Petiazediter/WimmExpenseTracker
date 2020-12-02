@@ -12,6 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
+import com.codecool.wimmexpensetracker.room_db.AppDatabase
+import com.codecool.wimmexpensetracker.room_db.Expense
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -35,16 +41,25 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
-        viewModel.init()
+        viewModel.init(viewLifecycleOwner)
         bindViews(view)
         setUpTexts()
     }
 
     private fun setUpTexts(){
-        remainingBudgetDate?.text = viewModel.getUserExpenses().value?.size.toString()
-        viewModel.getUserExpenses().observe(viewLifecycleOwner, {
+        remainingBudgetDate?.text = viewModel.getUserExpenses()?.value?.size.toString()
+        viewModel.getUserExpenses()?.observe(viewLifecycleOwner, {
             remainingBudgetDate?.text = it.size.toString()
         })
+
+        GlobalScope.launch { getDatabaseFun() }
+    }
+
+    fun getDatabaseFun(){
+        AppDatabase.getDatabase(null)?.ExpenseDao()
+                ?.insertExpense(
+                        Expense(UUID.randomUUID().toString(), LocalDateTime.now().year, LocalDateTime.now().monthValue, LocalDateTime.now().dayOfMonth,55.2f, "ads")
+                )
     }
 
     private fun bindViews(view: View){
