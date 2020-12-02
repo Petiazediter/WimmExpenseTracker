@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
         remainingMoney?.text = "$50"
     }
 
-    fun setUpTexts(){
+    private fun setUpTexts(){
 
     }
 
