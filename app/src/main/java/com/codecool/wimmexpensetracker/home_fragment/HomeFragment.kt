@@ -11,8 +11,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.anychart.core.ui.ScrollBar
-import com.anychart.graphics.vector.Fill
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
@@ -31,6 +29,14 @@ import java.time.Month
 
 
 class HomeFragment : Fragment() {
+
+    private val colors = listOf(
+        R.color.color_lightBlue,
+        R.color.color_lightGreen,
+        R.color.color_lightRed,
+        R.color.color_lightYellow,
+        R.color.color_lightPink
+    )
 
     private var remainingMoney : TextView? = null
     private var remainingBudget : TextView? = null
@@ -109,7 +115,7 @@ class HomeFragment : Fragment() {
             val barDataSet = BarDataSet(barEntryList,Month.of(pair.first).name)
             barDataSetList.add(barDataSet)
             context?.let{
-                barDataSet.color = ContextCompat.getColor(it,R.color.color_lightRed)
+                barDataSet.color = ContextCompat.getColor(it,colors[index])
             }
         }
         val barData = BarData(barDataSetList)
