@@ -64,38 +64,38 @@
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent=".47"
-        app:layout_constraintDimensionRatio="1:.5"
-        app:layout_constraintTop_toBottomOf="@id/budget_container"
         android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/color_lightRed"
+        app:layout_constraintDimensionRatio="1:.5"
         app:layout_constraintLeft_toLeftOf="@id/budget_container"
-        app:cardBackgroundColor="@color/color_lightRed">
+        app:layout_constraintTop_toBottomOf="@id/budget_container"
+        app:layout_constraintWidth_percent=".47">
 
         <LinearLayout
-            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_weight="1"
                 android:id="@+id/daily_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="$29.60"
-                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1"
                 android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center_horizontal|bottom"
+                android:textColor="@color/light_gray"
                 android:textSize="32sp"
-                android:textColor="@color/light_gray"/>
+                tools:text="$29.60" />
 
             <TextView
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/daily_total"
-                android:gravity="center_horizontal|top"
+                android:layout_weight="1"
                 android:fontFamily="@font/ubuntu_regular"
-                android:textColor="@color/white"/>
+                android:gravity="center_horizontal|top"
+                android:text="@string/daily_total"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -105,97 +105,97 @@
         android:id="@+id/budget_card_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintWidth_percent=".47"
-        app:layout_constraintDimensionRatio="1:.5"
-        app:layout_constraintTop_toBottomOf="@id/budget_container"
         android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/color_lightGreen"
+        app:layout_constraintDimensionRatio="1:.5"
         app:layout_constraintRight_toRightOf="@id/budget_container"
-        app:cardBackgroundColor="@color/color_lightGreen">
+        app:layout_constraintTop_toBottomOf="@id/budget_container"
+        app:layout_constraintWidth_percent=".47">
 
         <LinearLayout
-            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_weight="1"
                 android:id="@+id/daily_budget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="$75.00"
-                android:gravity="center_horizontal|bottom"
+                android:layout_weight="1"
                 android:fontFamily="@font/ubuntu_bold"
+                android:gravity="center_horizontal|bottom"
+                android:textColor="@color/light_gray"
                 android:textSize="32sp"
-                android:textColor="@color/light_gray"/>
+                tools:text="$75.00" />
 
             <TextView
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/daily_budget"
-                android:gravity="center_horizontal|top"
+                android:layout_weight="1"
                 android:fontFamily="@font/ubuntu_regular"
-                android:textColor="@color/white"/>
+                android:gravity="center_horizontal|top"
+                android:text="@string/daily_budget"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
-        android:layout_marginVertical="20dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginVertical="20dp"
         android:orientation="vertical"
+        app:layout_constrainedHeight="true"
         app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/budget_container"
         app:layout_constraintRight_toRightOf="@id/budget_container"
-        app:layout_constraintTop_toBottomOf="@id/budget_card_container"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constrainedHeight="true">
+        app:layout_constraintTop_toBottomOf="@id/budget_card_container">
 
-            <androidx.cardview.widget.CardView
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/light_gray" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/color_lightYellow">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="@color/light_gray"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                app:cardBackgroundColor="@color/color_lightYellow"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:gravity="center"
+                    android:shadowColor="@color/black"
+                    android:shadowDx="0"
+                    android:shadowDy="4"
+                    android:shadowRadius="15"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    tools:text="November, 2020" />
 
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="19sp"
+                    tools:text="152 expenses" />
 
-                            <TextView
-                                android:shadowColor="@color/black"
-                                android:shadowRadius="15"
-                                android:shadowDx="0"
-                                android:shadowDy="4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                tools:text="November, 2020"
-                                android:gravity="center"
-                                android:textSize="24sp"
-                                android:fontFamily="@font/ubuntu_bold"
-                                android:textColor="@color/white"/>
+            </LinearLayout>
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                tools:text="152 expenses"
-                                android:gravity="center"
-                                android:textSize="19sp"
-                                android:fontFamily="@font/ubuntu_regular"
-                                android:textColor="@color/white"/>
-
-                    </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
