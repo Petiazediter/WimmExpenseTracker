@@ -11,13 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WimmExpenseTracker">
+        <activity android:name=".new_category_activity.AddCategoryActivity"></activity>
         <activity android:name=".splash_activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".product_activity.MainActivity"/>
+        <activity android:name=".product_activity.MainActivity" />
     </application>
 
 </manifest>
