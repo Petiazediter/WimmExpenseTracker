@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.widget.*
 import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.CategoryColor
+import com.codecool.wimmexpensetracker.mvvm.view_models.AddCategoryActivityViewModel
 import com.codecool.wimmexpensetracker.room_db.Category
 import java.util.*
 
@@ -23,39 +25,30 @@ class AddCategoryActivity : AppCompatActivity() {
     private var createButton : Button? = null
     private var cancelButton : Button? = null
 
+    private lateinit var mViewModel : AddCategoryActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_category)
 
-        editText = findViewById(R.id.category_name_et)
-        gridLayout = findViewById(R.id.grid)
-        categoryName = findViewById(R.id.category_name)
-        previewColor = findViewById(R.id.preview_color)
-        createButton = findViewById(R.id.create_category_btn)
-        cancelButton = findViewById(R.id.cancel_btn)
+        mViewModel = ViewModelProvider(this).get(AddCategoryActivityViewModel::class.java)
+        mViewModel.init(this)
 
-        gridLayout?.let{
-            for ( item in it.children){
-                if ( item is ImageView){
-                    item.setOnClickListener {
-                        previewColor?.background = item.background
-                    }
-                }
-            }
-        }
-
-        editText?.addTextChangedListener {
-            categoryName?.text = it.toString()
-        }
-
+        bindViews()
+        setUpGridLayout()
+        setUpEditText()
         cancelButton?.setOnClickListener { finish() }
+        addListenerToCreateButton()
 
+    }
+
+    private fun addListenerToCreateButton() {
         createButton?.setOnClickListener {
 
-            categoryName?.let{ ctName ->
-                previewColor?.let{ pvColor ->
+            categoryName?.let { ctName ->
+                previewColor?.let { pvColor ->
                     var colorId = CategoryColor.RED
-                    when ( pvColor.background ){
+                    when (pvColor.background) {
                         (findViewById<ImageView>(R.id.color_yellow).background) -> colorId = CategoryColor.YELLOW
                         (findViewById<ImageView>(R.id.color_blue).background) -> colorId = CategoryColor.BLUE
                         (findViewById<ImageView>(R.id.color_green).background) -> colorId = CategoryColor.GREEN
@@ -63,13 +56,12 @@ class AddCategoryActivity : AppCompatActivity() {
                         (findViewById<ImageView>(R.id.color_red).background) -> colorId = CategoryColor.RED
                     }
 
-                    if ( ctName.text.toString().isNotEmpty() && ctName.text.toString().isNotBlank() && ctName.text.length > 4) {
+                    if (ctName.text.toString().isNotEmpty() && ctName.text.toString().isNotBlank() && ctName.text.length > 4) {
                         val category = Category(
                                 uId = UUID.randomUUID().toString(),
                                 categoryName = ctName.text.toString(),
                                 colorId = colorId
                         )
-
 
                     } else {
                         Toast.makeText(applicationContext, resources.getString(R.string.category_name_error), Toast.LENGTH_LONG).show()
@@ -77,5 +69,32 @@ class AddCategoryActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setUpEditText() {
+        editText?.addTextChangedListener {
+            categoryName?.text = it.toString()
+        }
+    }
+
+    private fun setUpGridLayout() {
+        gridLayout?.let {
+            for (item in it.children) {
+                if (item is ImageView) {
+                    item.setOnClickListener {
+                        previewColor?.background = item.background
+                    }
+                }
+            }
+        }
+    }
+
+    private fun bindViews() {
+        editText = findViewById(R.id.category_name_et)
+        gridLayout = findViewById(R.id.grid)
+        categoryName = findViewById(R.id.category_name)
+        previewColor = findViewById(R.id.preview_color)
+        createButton = findViewById(R.id.create_category_btn)
+        cancelButton = findViewById(R.id.cancel_btn)
     }
 }
