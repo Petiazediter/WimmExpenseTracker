@@ -1,22 +1,31 @@
 package com.codecool.wimmexpensetracker.categories_fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.adapters.RecyclerAdapter
 import com.codecool.wimmexpensetracker.data.CategoryColor
+import com.codecool.wimmexpensetracker.new_category_activity.AddCategoryActivity
+import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Category
 
-class CategoriesFragment : Fragment() {
+class CategoriesFragment : Fragment(), ActivityButtonListener {
 
     private var categoryRecyclerView: RecyclerView? = null
     private lateinit var recyclerAdapter : RecyclerAdapter
+
+    override fun onButtonPressed() {
+        val intent = Intent(context,AddCategoryActivity::class.java)
+        startActivity(intent)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

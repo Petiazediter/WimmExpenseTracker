@@ -46,6 +46,14 @@ class MainActivity : AppCompatActivity(), MainActivityContractor {
 
             }
         })
+
+        findViewById<TextView>(R.id.sub_menu).setOnClickListener {
+            if ( tabs[viewPager2.currentItem].fragment is ActivityButtonListener){
+                val listener =  tabs[viewPager2.currentItem].fragment as ActivityButtonListener
+                listener.onButtonPressed()
+            }
+        }
+
     }
 
     override fun setSubMenuTitle(menuTitle: String) {
