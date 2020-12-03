@@ -11,7 +11,7 @@ import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.CategoryColor
 import com.codecool.wimmexpensetracker.room_db.Category
 
-class RecyclerAdapter (private val list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
+class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
     class ViewHolderClass(itemView : View, val context: Context) : RecyclerView.ViewHolder(itemView) {
 
