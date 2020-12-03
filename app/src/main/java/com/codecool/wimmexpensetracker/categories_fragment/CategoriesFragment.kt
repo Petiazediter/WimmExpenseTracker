@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.adapters.RecyclerAdapter
+import com.codecool.wimmexpensetracker.adapters.RecyclerAdapterContractor
 import com.codecool.wimmexpensetracker.data.CategoryColor
 import com.codecool.wimmexpensetracker.mvvm.view_models.CategoriesViewModel
 import com.codecool.wimmexpensetracker.new_category_activity.AddCategoryActivity
@@ -19,7 +20,7 @@ import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Category
 
-class CategoriesFragment : Fragment(), ActivityButtonListener {
+class CategoriesFragment : Fragment(), ActivityButtonListener,RecyclerAdapterContractor {
 
     private var categoryRecyclerView: RecyclerView? = null
     private lateinit var recyclerAdapter : RecyclerAdapter
@@ -58,7 +59,7 @@ class CategoriesFragment : Fragment(), ActivityButtonListener {
 
     private fun setUpRecycler(){
         context?.let{
-            recyclerAdapter = RecyclerAdapter(listOf(), layoutInflater, it)
+            recyclerAdapter = RecyclerAdapter(listOf(), layoutInflater, it,this)
             categoryRecyclerView?.adapter = recyclerAdapter
             categoryRecyclerView?.layoutManager = LinearLayoutManager(it,LinearLayoutManager.VERTICAL, false)
         }
@@ -77,6 +78,10 @@ class CategoriesFragment : Fragment(), ActivityButtonListener {
                 it.setSubMenuTitle( resources.getString(R.string.add_categories))
             }
         }
+    }
+
+    override fun onItemDelteted(category: Category) {
+        viewModel.deleteCategory(category)
     }
 
 }

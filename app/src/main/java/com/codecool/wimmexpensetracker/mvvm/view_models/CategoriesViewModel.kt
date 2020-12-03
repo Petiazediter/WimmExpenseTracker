@@ -18,4 +18,8 @@ class CategoriesViewModel : ViewModel() {
         allCategories = mCategoriesRepository?.getCategories()
     }
 
+    fun deleteCategory(category: Category){
+        mCategoriesRepository?.removeCategory(category)
+    }
+
 }

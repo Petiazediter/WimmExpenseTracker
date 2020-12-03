@@ -4,6 +4,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.codecool.wimmexpensetracker.room_db.AppDatabase
 import com.codecool.wimmexpensetracker.room_db.Category
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CategoriesRepository ( val lifecycleOwner: LifecycleOwner) {
 
@@ -19,6 +21,14 @@ class CategoriesRepository ( val lifecycleOwner: LifecycleOwner) {
                 })
 
         return data
+    }
+
+    fun removeCategory ( category: Category) {
+        GlobalScope.launch {
+            AppDatabase.getDatabase(null)
+                    ?.CategoryDao()
+                    ?.deleteCategory(category)
+        }
     }
 
     companion object{

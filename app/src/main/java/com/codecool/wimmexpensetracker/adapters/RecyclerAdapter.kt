@@ -11,7 +11,7 @@ import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.CategoryColor
 import com.codecool.wimmexpensetracker.room_db.Category
 
-class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
+class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context, private val view : RecyclerAdapterContractor) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
     class ViewHolderClass(itemView : View, val context: Context) : RecyclerView.ViewHolder(itemView) {
 
@@ -19,17 +19,26 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
         private lateinit var categoryName : TextView
         private lateinit var totalExpense : TextView
         private lateinit var currentMonthExpense : TextView
+        private lateinit var deleteButton : ImageView
 
-        fun init(category: Category){
+        private lateinit var parentView : RecyclerAdapterContractor
+
+        fun init(category: Category,view : RecyclerAdapterContractor){
+            parentView = view
             bindViews()
             setSideColor(category.colorId)
             categoryName.text = category.categoryName
+
+            deleteButton.setOnClickListener {
+                parentView.onItemDelteted(category)
+            }
         }
 
         private fun bindViews(){
             colorContainer = itemView.findViewById(R.id.color_container)
             categoryName = itemView.findViewById(R.id.category_name)
             totalExpense = itemView.findViewById(R.id.total_expense)
+            deleteButton = itemView.findViewById(R.id.delete_button)
             currentMonthExpense = itemView.findViewById(R.id.current_month_expense)
         }
 
@@ -48,7 +57,7 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val category : Category = list[position]
-        holder.init(category)
+        holder.init(category,view)
     }
 
     override fun getItemCount(): Int = list.size
