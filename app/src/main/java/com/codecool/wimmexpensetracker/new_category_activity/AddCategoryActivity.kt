@@ -44,7 +44,6 @@ class AddCategoryActivity : AppCompatActivity() {
 
     private fun addListenerToCreateButton() {
         createButton?.setOnClickListener {
-
             categoryName?.let { ctName ->
                 previewColor?.let { pvColor ->
                     var colorId = CategoryColor.RED
@@ -62,6 +61,10 @@ class AddCategoryActivity : AppCompatActivity() {
                                 categoryName = ctName.text.toString(),
                                 colorId = colorId
                         )
+
+                        mViewModel.addCategory(category)
+                        Toast.makeText(applicationContext, "The new category successfully created!",Toast.LENGTH_LONG).show()
+                        finish()
 
                     } else {
                         Toast.makeText(applicationContext, resources.getString(R.string.category_name_error), Toast.LENGTH_LONG).show()
