@@ -16,4 +16,5 @@
     <string name="expenses">expenses</string>
     <string name="monthly_total">"Monthly total: "</string>
     <string name="monthly_average">"Monthly average: "</string>
+    <string name="add_categories">New category</string>
 </resources>

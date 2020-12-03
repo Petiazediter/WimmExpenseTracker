@@ -66,6 +66,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
         viewModel.init(viewLifecycleOwner)
         bindViews(view)
@@ -168,9 +169,12 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivityContractor).let{
-            it.setMenuTitle(resources.getString(R.string.home_fragment_title))
-            it.setSubMenuTitle(resources.getString(R.string.settings_fragment_title))
+        // Page title setter
+        if ( activity is MainActivityContractor){
+            (activity as MainActivityContractor).let{
+                it.setMenuTitle( resources.getString(R.string.home_fragment_title) )
+                it.setSubMenuTitle( resources.getString(R.string.settings_fragment_title))
+            }
         }
         remainingBudgetDate?.alpha = 0f
         pairAnimation(remainingMoney, listOf(remainingBudget, remainingBudgetDate))
