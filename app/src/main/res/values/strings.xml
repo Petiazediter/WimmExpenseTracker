@@ -28,4 +28,6 @@
     <string name="category_name_error">The name of the category is too short.</string>
     <string name="total_expenses">Total expenses: $</string>
     <string name="current_month_expenses">Current monthly expense: $</string>
+    <string name="expenses_fragment_title">Expenses</string>
+    <string name="expenses_fragment_subtitle">New expense</string>
 </resources>
