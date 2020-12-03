@@ -6,14 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.CategoryColor
+import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
+import com.codecool.wimmexpensetracker.mvvm.view_models.RecyclerAdapterViewModel
 import com.codecool.wimmexpensetracker.room_db.Category
 
-class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context, private val view : RecyclerAdapterContractor) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
+class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context, private val view : RecyclerAdapterContractor,private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
-    class ViewHolderClass(itemView : View, val context: Context) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolderClass(itemView : View, val context: Context,val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {
 
         private lateinit var colorContainer : ImageView
         private lateinit var categoryName : TextView
@@ -22,6 +27,8 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
         private lateinit var deleteButton : ImageView
 
         private lateinit var parentView : RecyclerAdapterContractor
+
+        private lateinit var viewModel : RecyclerAdapterViewModel
 
         fun init(category: Category,view : RecyclerAdapterContractor){
             parentView = view
@@ -32,6 +39,9 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
             deleteButton.setOnClickListener {
                 parentView.onItemDelteted(category)
             }
+
+            viewModel = ViewModelProvider(context as ViewModelStoreOwner).get(RecyclerAdapterViewModel::class.java)
+
         }
 
         private fun bindViews(){
@@ -53,7 +63,7 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass = ViewHolderClass( layoutInflater.inflate(R.layout.category_recycler_row,parent,false), context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass = ViewHolderClass( layoutInflater.inflate(R.layout.category_recycler_row,parent,false), context,lifecycleOwner)
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val category : Category = list[position]

@@ -19,5 +19,8 @@ interface ExpenseDao {
     fun getExpensesByMonth(year: Int,month: Int)
         :LiveData<List<Expense>>
 
+    @Query("SELECT * FROM expenses WHERE expenseCategory = :categoryId")
+    fun getExpenseByCategory(categoryId : String) : LiveData<List<Expense>>
+
     @Insert fun insertExpense(expense: Expense)
 }

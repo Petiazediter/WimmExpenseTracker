@@ -59,7 +59,7 @@ class CategoriesFragment : Fragment(), ActivityButtonListener,RecyclerAdapterCon
 
     private fun setUpRecycler(){
         context?.let{
-            recyclerAdapter = RecyclerAdapter(listOf(), layoutInflater, it,this)
+            recyclerAdapter = RecyclerAdapter(listOf(), layoutInflater, it,this, viewLifecycleOwner)
             categoryRecyclerView?.adapter = recyclerAdapter
             categoryRecyclerView?.layoutManager = LinearLayoutManager(it,LinearLayoutManager.VERTICAL, false)
         }
