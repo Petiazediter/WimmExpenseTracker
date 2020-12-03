@@ -9,7 +9,7 @@ class CategoriesRepository ( val lifecycleOwner: LifecycleOwner) {
 
     private lateinit var allCategories : MutableLiveData<List<Category>>
 
-    private fun getCategories() : MutableLiveData<List<Category>>{
+    fun getCategories() : MutableLiveData<List<Category>>{
         val data = MutableLiveData<List<Category>>()
         AppDatabase.getDatabase(null)
         ?.CategoryDao()
