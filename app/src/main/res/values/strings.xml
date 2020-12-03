@@ -26,4 +26,6 @@
     <string name="category_finish">Finalize</string>
     <string name="cancel">Cancel</string>
     <string name="category_name_error">The name of the category is too short.</string>
+    <string name="total_expenses">Total expenses: $</string>
+    <string name="current_month_expenses">Current monthly expense: $</string>
 </resources>

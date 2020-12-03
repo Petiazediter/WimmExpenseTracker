@@ -1,5 +1,6 @@
 package com.codecool.wimmexpensetracker.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,11 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.CategoryColor
+import com.codecool.wimmexpensetracker.home_fragment.HomeFragment.Companion.formatTo2Decimals
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
 import com.codecool.wimmexpensetracker.mvvm.view_models.RecyclerAdapterViewModel
 import com.codecool.wimmexpensetracker.room_db.Category
+import java.time.LocalDateTime
 
 class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context, private val view : RecyclerAdapterContractor,private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
@@ -30,7 +33,8 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
 
         private lateinit var viewModel : RecyclerAdapterViewModel
 
-        fun init(category: Category,view : RecyclerAdapterContractor){
+        @SuppressLint("SetTextI18n")
+        fun init(category: Category, view : RecyclerAdapterContractor){
             parentView = view
             bindViews()
             setSideColor(category.colorId)
@@ -41,7 +45,11 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
             }
 
             viewModel = ViewModelProvider(context as ViewModelStoreOwner).get(RecyclerAdapterViewModel::class.java)
-
+            viewModel.init(lifecycleOwner)
+            viewModel.getExpensesByCategory(category)?.observe(lifecycleOwner,{
+                totalExpense.text = context.resources.getString(R.string.total_expenses) + it.map{it.amount}.sum().formatTo2Decimals()
+                currentMonthExpense.text = context.resources.getString(R.string.current_month_expenses) + (it.filter{ it.year == LocalDateTime.now().year && it.month == LocalDateTime.now().monthValue }.map{it.amount}.sum()).formatTo2Decimals()
+            })
         }
 
         private fun bindViews(){

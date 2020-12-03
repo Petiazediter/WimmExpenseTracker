@@ -73,6 +73,14 @@ class HomeFragment : Fragment() {
         setUpTexts()
     }
 
+    companion object{
+        fun Float.formatTo2Decimals() : String {
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+            return df.format(this).toString()
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private fun setUpTexts(){
 
