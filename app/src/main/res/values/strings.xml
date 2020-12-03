@@ -2,8 +2,6 @@
     <string name="app_name">WimmExpenseTracker</string>
     <string name="company_name">Wimm</string>
     <string name="product_name">Expense tracker</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_fragment_title">Home</string>
     <string name="settings_fragment_title">Settings</string>
     <string name="daily_sub_text">Remaining budget</string>
@@ -30,4 +28,10 @@
     <string name="current_month_expenses">Current monthly expense: $</string>
     <string name="expenses_fragment_title">Expenses</string>
     <string name="expenses_fragment_subtitle">New expense</string>
+    <string name="title_activity_new_expense">NewExpenseActivity</string>
+    <string name="details">Details</string>
+    <string name="name">Name</string>
+    <string name="short_description">Short description</string>
+    <string name="amount">Amount</string>
+    <string name="category">Category</string>
 </resources>
