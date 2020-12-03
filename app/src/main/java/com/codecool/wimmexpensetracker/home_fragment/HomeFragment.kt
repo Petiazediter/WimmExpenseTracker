@@ -17,7 +17,6 @@ import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Expense
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -135,7 +134,6 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun processTexts(budget: Float, expenseSum: Float, list : List<Expense>){
-
         monthDateTV?.text = "${LocalDateTime.now().month.name},${LocalDateTime.now().year}"
         allExpenses?.text = "${list.size} " + resources.getString(R.string.expenses)
         dailyBudget?.text = "$${budget}"
@@ -178,7 +176,7 @@ class HomeFragment : Fragment() {
         pairAnimation(remainingMoney, listOf(remainingBudget, remainingBudgetDate))
         pairAnimation(dailyTotal, listOf(dailyTotalSub))
         pairAnimation(dailyBudget, listOf(dailyBudgetSub))
-        pairAnimation(monthDateTV,listOf(allExpenses))
+        pairAnimation(monthDateTV,listOf(allExpenses,monthlyAverage,totalExpense))
     }
 
     override fun onPause() {
@@ -190,6 +188,11 @@ class HomeFragment : Fragment() {
         dailyTotalSub?.alpha = 0f
         dailyBudget?.alpha = 0f
         dailyBudgetSub?.alpha = 0f
+
+        allExpenses?.alpha = 0f
+        monthlyAverage?.alpha = 0f
+        monthDateTV?.alpha = 0f
+        totalExpense?.alpha = 0f
     }
 
     private fun pairAnimation(parentTv: TextView?, subTv: List<TextView?>){
