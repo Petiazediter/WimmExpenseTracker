@@ -87,6 +87,5 @@ class HomeFragmentRepository(val lifecycleOwner: LifecycleOwner){
             return instance
         }
 
-
     }
 }

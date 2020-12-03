@@ -3,7 +3,6 @@ package com.codecool.wimmexpensetracker.new_category_activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.cardview.widget.CardView
 import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import com.codecool.wimmexpensetracker.R
@@ -12,6 +11,8 @@ import com.codecool.wimmexpensetracker.room_db.Category
 import java.util.*
 
 class AddCategoryActivity : AppCompatActivity() {
+
+    // Known bug : The image views shrink after you changing the text in the editText.
 
     private var editText : EditText? = null
     private var gridLayout : GridLayout? = null
@@ -37,7 +38,6 @@ class AddCategoryActivity : AppCompatActivity() {
             for ( item in it.children){
                 if ( item is ImageView){
                     item.setOnClickListener {
-                        Toast.makeText(applicationContext, "Color : x", Toast.LENGTH_LONG).show()
                         previewColor?.background = item.background
                     }
                 }
@@ -49,6 +49,7 @@ class AddCategoryActivity : AppCompatActivity() {
         }
 
         cancelButton?.setOnClickListener { finish() }
+
         createButton?.setOnClickListener {
 
             categoryName?.let{ ctName ->

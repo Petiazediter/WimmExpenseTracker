@@ -55,6 +55,7 @@
         <ImageView
             android:id="@+id/color_yellow"
             android:layout_columnWeight="1"
+            android:scaleType="fitXY"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -63,6 +64,7 @@
         <ImageView
             android:id="@+id/color_blue"
             android:layout_columnWeight="1"
+            android:scaleType="fitXY"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -71,6 +73,7 @@
         <ImageView
             android:id="@+id/color_red"
             android:layout_columnWeight="1"
+            android:scaleType="fitXY"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -79,6 +82,7 @@
         <ImageView
             android:id="@+id/color_pink"
             android:layout_columnWeight="1"
+            android:scaleType="fitXY"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -87,6 +91,7 @@
         <ImageView
             android:id="@+id/color_green"
             android:layout_columnWeight="1"
+            android:scaleType="fitXY"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
