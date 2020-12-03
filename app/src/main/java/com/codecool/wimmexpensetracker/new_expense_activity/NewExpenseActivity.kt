@@ -20,7 +20,13 @@ class NewExpenseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_expense)
+
         bindViews()
+        setUpRecycler()
+    }
+
+    private fun setUpRecycler(){
+        
     }
 
     private fun bindViews(){
@@ -32,4 +38,6 @@ class NewExpenseActivity : AppCompatActivity() {
         submitButton = findViewById(R.id.button_finish)
         cancelButton = findViewById(R.id.button_cancel)
     }
+
+
 }

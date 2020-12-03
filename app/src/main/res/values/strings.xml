@@ -34,4 +34,5 @@
     <string name="short_description">Short description</string>
     <string name="amount">Amount</string>
     <string name="category">Category</string>
+    <string name="preview_text_total_expense">Total expense : $200</string>
 </resources>
