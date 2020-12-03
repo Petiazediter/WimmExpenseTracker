@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 
 class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context, private val view : RecyclerAdapterContractor,private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
-    class ViewHolderClass(itemView : View, val context: Context,val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolderClass(itemView : View, val context: Context, private val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {
 
         private lateinit var colorContainer : ImageView
         private lateinit var categoryName : TextView
@@ -37,6 +37,7 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
         fun init(category: Category, view : RecyclerAdapterContractor){
             parentView = view
             bindViews()
+
             setSideColor(category.colorId)
             categoryName.text = category.categoryName
 
@@ -46,9 +47,9 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
 
             viewModel = ViewModelProvider(context as ViewModelStoreOwner).get(RecyclerAdapterViewModel::class.java)
             viewModel.init(lifecycleOwner)
-            viewModel.getExpensesByCategory(category)?.observe(lifecycleOwner,{
-                totalExpense.text = context.resources.getString(R.string.total_expenses) + it.map{it.amount}.sum().formatTo2Decimals()
-                currentMonthExpense.text = context.resources.getString(R.string.current_month_expenses) + (it.filter{ it.year == LocalDateTime.now().year && it.month == LocalDateTime.now().monthValue }.map{it.amount}.sum()).formatTo2Decimals()
+            viewModel.getExpensesByCategory(category)?.observe(lifecycleOwner,{ list ->
+                totalExpense.text = context.resources.getString(R.string.total_expenses) + list.map{it.amount}.sum().formatTo2Decimals()
+                currentMonthExpense.text = context.resources.getString(R.string.current_month_expenses) + (list.filter{ item -> item.year == LocalDateTime.now().year && item.month == LocalDateTime.now().monthValue }.map{it.amount}.sum()).formatTo2Decimals()
             })
         }
 
