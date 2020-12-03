@@ -8,6 +8,9 @@ import androidx.room.Query
 @Dao
 interface ExpenseDao {
 
+    @Query("SELECT * FROM expenses")
+    fun getAllExpenses() : LiveData<List<Expense>>
+
     @Query("SELECT * FROM expenses WHERE year = :year AND month = :month AND day = :day")
     fun getExpensesByDate(year: Int, month : Int, day : Int)
             : LiveData<List<Expense>>

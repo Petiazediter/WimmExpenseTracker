@@ -8,6 +8,8 @@ import java.time.LocalDateTime
 
 class HomeFragmentRepository(val lifecycleOwner: LifecycleOwner){
     private lateinit var dataSet : List<Expense>
+    private var currentMonthExpenses : List<Expense> = ArrayList()
+    private var allExpenses : List<Expense> = ArrayList()
     private var lastMonthDataset : HashMap<Int,List<Expense>> = HashMap<Int,List<Expense>>()
 
 
@@ -25,11 +27,37 @@ class HomeFragmentRepository(val lifecycleOwner: LifecycleOwner){
         return data
     }
 
+    fun getCurrentMonthExpenses() : MutableLiveData<List<Expense>>{
+        val data = MutableLiveData<List<Expense>>()
+
+        AppDatabase.getDatabase(null)?.let{ appDatabase ->
+            appDatabase.ExpenseDao().getExpensesByMonth(LocalDateTime.now().year, LocalDateTime.now().monthValue).observe(lifecycleOwner, {
+                data.value = it
+                currentMonthExpenses = it
+            })
+        }
+
+        return data
+    }
+
+    fun getAllExpenses() : MutableLiveData<List<Expense>>{
+        val data = MutableLiveData<List<Expense>>()
+
+        AppDatabase.getDatabase(null)?.let{ appDatabase ->
+            appDatabase.ExpenseDao().getAllExpenses().observe(lifecycleOwner, {
+                data.value = it
+                allExpenses = it
+            })
+        }
+
+        return data
+    }
+
     fun getLastFiveMonthExpenses(): MutableLiveData<HashMap<Int,List<Expense>>>? {
         val data = MutableLiveData<HashMap<Int,List<Expense>>>()
         data.value = hashMapOf()
 
-        val dateNow = Pair<Int,Int>(LocalDateTime.now().year, LocalDateTime.now().monthValue)
+        val dateNow = Pair(LocalDateTime.now().year, LocalDateTime.now().monthValue)
 
         val searchedMonts = ArrayList<Pair<Int,Int>>()
         for ( i in 0 until 5){

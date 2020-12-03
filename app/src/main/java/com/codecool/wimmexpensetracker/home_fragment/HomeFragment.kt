@@ -48,10 +48,12 @@ class HomeFragment : Fragment() {
     private var dailyBudget : TextView? = null
     private var dailyBudgetSub : TextView? = null
     private var monthDateTV : TextView? = null
+
     private var allExpenses : TextView? = null
+    private var totalExpense : TextView? = null
+    private var monthlyAverage : TextView? = null
 
     lateinit var viewModel : HomeFragmentViewModel
-
     lateinit var anyChartView : BarChart
 
     override fun onCreateView(
@@ -73,6 +75,10 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setUpTexts(){
+
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+
         remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
         viewModel.userExpenses?.observe(viewLifecycleOwner, {
             processTexts(
@@ -85,8 +91,16 @@ class HomeFragment : Fragment() {
         viewModel.lastMonthExpenses?.observe(viewLifecycleOwner, { hash ->
             setUpChart(hash.map { Pair(it.key, it.value) })
         })
-    }
 
+        viewModel.currentMonthExpense?.observe(viewLifecycleOwner,{ expenses ->
+            allExpenses?.text = "${expenses.size} " + resources.getString(R.string.expenses)
+            totalExpense?.text = resources.getString(R.string.monthly_total) + "$${df.format(expenses.map{it.amount}.sum())}"
+        })
+
+        viewModel.allExpenses?.observe(viewLifecycleOwner,{ expenses ->
+            monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 ) df.format(expenses.map{it.amount}.average()) else 0}"
+        })
+    }
 
     private fun setUpChart(list: List<Pair<Int, List<Expense>>>){
         anyChartView.setDrawValueAboveBar(true)
@@ -150,6 +164,8 @@ class HomeFragment : Fragment() {
 
         monthDateTV = view.findViewById(R.id.date_month_tv)
         allExpenses = view.findViewById(R.id.all_expenses)
+        monthlyAverage = view.findViewById(R.id.monthly_average)
+        totalExpense = view.findViewById(R.id.total_expense)
     }
 
     override fun onResume() {

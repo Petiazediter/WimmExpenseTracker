@@ -14,4 +14,6 @@
     <string name="month">Month</string>
     <string name="spending">Spending</string>
     <string name="expenses">expenses</string>
+    <string name="monthly_total">"Monthly total: "</string>
+    <string name="monthly_average">"Monthly average: "</string>
 </resources>

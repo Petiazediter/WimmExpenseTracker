@@ -11,6 +11,8 @@ class HomeFragmentViewModel : ViewModel() {
     private lateinit var mHomeFragmentRepository : HomeFragmentRepository
     var userExpenses : MutableLiveData<List<Expense>>? = null
     var lastMonthExpenses : MutableLiveData<HashMap<Int,List<Expense>>>? = null
+    var allExpenses : MutableLiveData<List<Expense>>? = null
+    var currentMonthExpense : MutableLiveData<List<Expense>>? = null
 
     fun init(lifecycleOwner: LifecycleOwner){
         if  (userExpenses != null){
@@ -19,6 +21,8 @@ class HomeFragmentViewModel : ViewModel() {
         mHomeFragmentRepository = HomeFragmentRepository.getInstance(lifecycleOwner)!!
         userExpenses = mHomeFragmentRepository.getExpenses()
         lastMonthExpenses = mHomeFragmentRepository.getLastFiveMonthExpenses()
+        allExpenses = mHomeFragmentRepository.getAllExpenses()
+        currentMonthExpense = mHomeFragmentRepository.getCurrentMonthExpenses()
     }
 
 }
