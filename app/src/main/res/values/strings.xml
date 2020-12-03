@@ -17,4 +17,12 @@
     <string name="monthly_total">"Monthly total: "</string>
     <string name="monthly_average">"Monthly average: "</string>
     <string name="add_categories">New category</string>
+    <string name="category_name">Category name</string>
+    <string name="category_color">Category color</string>
+    <string name="category_preview">Preview</string>
+    <string name="preview_text_3">Current monthly expense: $20</string>
+    <string name="preview_text_2">Total expense : $200</string>
+    <string name="create_category">Create category</string>
+    <string name="category_finish">Finalize</string>
+    <string name="cancel">Cancel</string>
 </resources>
