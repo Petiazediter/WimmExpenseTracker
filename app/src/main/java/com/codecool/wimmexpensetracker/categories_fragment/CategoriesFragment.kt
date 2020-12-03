@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.adapters.RecyclerAdapter
 import com.codecool.wimmexpensetracker.data.CategoryColor
+import com.codecool.wimmexpensetracker.mvvm.view_models.CategoriesViewModel
 import com.codecool.wimmexpensetracker.new_category_activity.AddCategoryActivity
 import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
@@ -21,6 +23,7 @@ class CategoriesFragment : Fragment(), ActivityButtonListener {
 
     private var categoryRecyclerView: RecyclerView? = null
     private lateinit var recyclerAdapter : RecyclerAdapter
+    private lateinit var viewModel : CategoriesViewModel
 
     override fun onButtonPressed() {
         val intent = Intent(context,AddCategoryActivity::class.java)
@@ -37,16 +40,16 @@ class CategoriesFragment : Fragment(), ActivityButtonListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(CategoriesViewModel::class.java)
+        viewModel.init(viewLifecycleOwner)
+
         bindViews()
         setUpRecycler()
-        setRecyclerData( listOf(
-                Category("ASD", "Name1", CategoryColor.YELLOW),
-                Category( "ASDD", "Name2", CategoryColor.PINK),
-                Category( "ASDD", "Name3", CategoryColor.GREEN),
-                Category( "ASDD", "Name4", CategoryColor.RED),
-                Category( "ASDD", "Name5", CategoryColor.BLUE),
-                Category( "ASDD", "Name6", CategoryColor.RED),
-        ))
+
+        viewModel.allCategories?.observe(viewLifecycleOwner, {
+            setRecyclerData(it)
+        })
     }
 
     private fun bindViews(){

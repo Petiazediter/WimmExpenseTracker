@@ -9,7 +9,7 @@ import com.codecool.wimmexpensetracker.room_db.Category
 class CategoriesViewModel : ViewModel() {
 
     private var mCategoriesRepository : CategoriesRepository? = null
-    private var allCategories : MutableLiveData<List<Category>>? = null
+    var allCategories : MutableLiveData<List<Category>>? = null
 
     fun init(lifecycleOwner: LifecycleOwner){
         if ( mCategoriesRepository == null){
