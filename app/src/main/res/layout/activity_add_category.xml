@@ -52,45 +52,45 @@
         android:layout_margin="20dp"
         android:columnCount="2">
 
-        <androidx.cardview.widget.CardView
+        <ImageView
             android:id="@+id/color_yellow"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardBackgroundColor="@color/color_lightYellow"/>
+            android:background="@color/color_lightYellow"/>
 
-        <androidx.cardview.widget.CardView
+        <ImageView
             android:id="@+id/color_blue"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardBackgroundColor="@color/color_lightBlue"/>
+            android:background="@color/color_lightBlue"/>
 
-        <androidx.cardview.widget.CardView
+        <ImageView
             android:id="@+id/color_red"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardBackgroundColor="@color/color_lightRed"/>
+            android:background="@color/color_lightRed"/>
 
-        <androidx.cardview.widget.CardView
+        <ImageView
             android:id="@+id/color_pink"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardBackgroundColor="@color/color_lightPink"/>
+            android:background="@color/color_lightPink"/>
 
-        <androidx.cardview.widget.CardView
+        <ImageView
             android:id="@+id/color_green"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardBackgroundColor="@color/color_lightGreen"/>
+            android:background="@color/color_lightGreen"/>
 
     </GridLayout>
 
@@ -151,7 +151,7 @@
         app:layout_constraintBottom_toBottomOf="@id/linear"
         app:layout_constraintRight_toLeftOf="@id/linear"
         app:layout_constraintLeft_toLeftOf="@id/tooltip_preview"
-        tools:background="@color/color_lightGreen"/>
+        android:background="@color/color_lightGreen"/>
 
     <TextView
         android:id="@+id/tooltip_finish"
@@ -177,7 +177,7 @@
         android:backgroundTint="@color/color_lightGreen"/>
 
     <Button
-        android:id="@+id/cancel_button"
+        android:id="@+id/cancel_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="@id/create_category_btn"

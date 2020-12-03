@@ -25,4 +25,5 @@
     <string name="create_category">Create category</string>
     <string name="category_finish">Finalize</string>
     <string name="cancel">Cancel</string>
+    <string name="category_name_error">The name of the category is too short.</string>
 </resources>
