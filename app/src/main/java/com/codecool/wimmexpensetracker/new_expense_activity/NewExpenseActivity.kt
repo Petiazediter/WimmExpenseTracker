@@ -16,7 +16,6 @@ import com.codecool.wimmexpensetracker.room_db.Category
 class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
 
     private var nameEditText : EditText? = null
-    private var descriptionEditText : EditText? = null
     private var amountEditText : EditText? = null
 
     private var categoryRecyclerView : RecyclerView? = null
@@ -62,7 +61,6 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
 
     private fun bindViews(){
         nameEditText = findViewById(R.id.title_et)
-        descriptionEditText = findViewById(R.id.desc_et)
         amountEditText = findViewById(R.id.amount_et)
 
         categoryRecyclerView = findViewById(R.id.category_recycler)
