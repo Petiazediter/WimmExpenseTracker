@@ -35,4 +35,5 @@
     <string name="amount">Amount</string>
     <string name="category">Category</string>
     <string name="preview_text_total_expense">Total expense : $???</string>
+    <string name="create_expense">Create expense</string>
 </resources>
