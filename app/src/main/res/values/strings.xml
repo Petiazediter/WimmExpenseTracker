@@ -18,8 +18,8 @@
     <string name="category_name">Category name</string>
     <string name="category_color">Category color</string>
     <string name="category_preview">Preview</string>
-    <string name="preview_text_3">Current monthly expense: $20</string>
-    <string name="preview_text_2">Total expense : $200</string>
+    <string name="preview_text_3">Current monthly expense: $???</string>
+    <string name="preview_text_2">Total expense : $???</string>
     <string name="create_category">Create category</string>
     <string name="category_finish">Finalize</string>
     <string name="cancel">Cancel</string>
@@ -34,5 +34,5 @@
     <string name="short_description">Short description</string>
     <string name="amount">Amount</string>
     <string name="category">Category</string>
-    <string name="preview_text_total_expense">Total expense : $200</string>
+    <string name="preview_text_total_expense">Total expense : $???</string>
 </resources>
