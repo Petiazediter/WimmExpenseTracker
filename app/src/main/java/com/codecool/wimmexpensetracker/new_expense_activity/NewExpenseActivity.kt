@@ -36,6 +36,8 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
         bindViews()
         setUpRecycler()
         setRecyclerData()
+
+        cancelButton?.setOnClickListener { finish() }
     }
 
     private fun setRecyclerData(){

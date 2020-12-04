@@ -19,4 +19,9 @@
     <style name="ApplicationBaseSettings">
         <item name="android:background">@color/light_gray</item>
     </style>
+
+    <style name="CustomEditText">
+        <item name="android:background">@drawable/edit_text_bg</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>
