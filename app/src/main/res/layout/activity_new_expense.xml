@@ -49,18 +49,6 @@
             app:layout_constraintWidth_percent=".5" />
 
         <EditText
-            android:id="@+id/desc_et"
-            style="@style/CustomEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="@string/short_description"
-            android:inputType="text"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_et"
-            app:layout_constraintWidth_percent=".5" />
-
-        <EditText
             android:id="@+id/amount_et"
             style="@style/CustomEditText"
             android:layout_width="0dp"
@@ -69,7 +57,7 @@
             android:hint="@string/amount"
             android:inputType="numberDecimal"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/desc_et"
+            app:layout_constraintTop_toBottomOf="@id/title_et"
             app:layout_constraintWidth_percent=".5" />
 
 
@@ -111,7 +99,7 @@
             android:id="@+id/button_finish"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_margin="20dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/color_lightGreen"
             android:text="@string/category_finish"
