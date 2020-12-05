@@ -36,4 +36,5 @@
     <string name="category">Category</string>
     <string name="preview_text_total_expense">Total expense : $???</string>
     <string name="create_expense">Create expense</string>
+    <string name="preview">Preview</string>
 </resources>
