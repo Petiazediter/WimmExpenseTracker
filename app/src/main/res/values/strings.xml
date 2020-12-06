@@ -39,4 +39,7 @@
     <string name="preview">Preview</string>
     <string name="preview_amount">$???</string>
     <string name="preview_date">19,December,2020</string>
+    <string name="too_short_name">Too short expense name!</string>
+    <string name="make_sure_amount">Make sure you typed the amount right!</string>
+    <string name="price">The amount must be  greater than 0</string>
 </resources>
