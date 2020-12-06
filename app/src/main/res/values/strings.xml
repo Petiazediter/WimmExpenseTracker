@@ -37,4 +37,6 @@
     <string name="preview_text_total_expense">Total expense : $???</string>
     <string name="create_expense">Create expense</string>
     <string name="preview">Preview</string>
+    <string name="preview_amount">$???</string>
+    <string name="preview_date">19,December,2020</string>
 </resources>
