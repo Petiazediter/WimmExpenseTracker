@@ -60,7 +60,6 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
 
         cancelButton?.setOnClickListener { finish() }
         submitButton?.setOnClickListener{
-            Toast.makeText(applicationContext,"Sure",Toast.LENGTH_SHORT).show()
             onFinishButtonClick()
         }
     }
@@ -137,17 +136,20 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
                     previewAmount?.let { mPreviewAmount ->
                         if (mPreviewName.text.isNotBlank() && mPreviewName.text.length >= 4) {
 
-                            var amount : Double? = mPreviewAmount.text.toString().toDoubleOrNull()
+                            // Delete the $ from the start
+                            val string = mPreviewAmount.text.toString().substring(1)
 
-                            amount?.let {
-                                if (amount > 0) {
+                            var amount : Float? = string.toFloatOrNull()
+
+                            amount?.let {theAmount ->
+                                if (theAmount > 0) {
                                     val expense = Expense(
                                         uid = UUID.randomUUID().toString(),
                                         title = mPreviewName.text.toString(),
                                         year = LocalDate.now().year,
                                         month = LocalDate.now().monthValue,
                                         day = LocalDate.now().dayOfMonth,
-                                        amount = amount.toFloat(),
+                                        amount = theAmount,
                                         expenseCategory = mCategory.uId
                                     )
                                     newExpenseViewModel.addExpense(expense)
