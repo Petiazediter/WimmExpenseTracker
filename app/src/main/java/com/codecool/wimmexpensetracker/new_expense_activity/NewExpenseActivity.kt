@@ -2,10 +2,7 @@ package com.codecool.wimmexpensetracker.new_expense_activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
@@ -70,6 +67,7 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
             CategoryColor.BLUE -> R.color.color_lightBlue
         }
         previewColor?.setBackgroundColor(applicationContext.getColor(color))
+        previewCategoryName?.text = category.categoryName
     }
 
     private fun bindViews(){
