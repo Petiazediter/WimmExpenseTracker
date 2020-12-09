@@ -1,8 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".expenses_fragment.ExpensesFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tooltip_daily_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/today_expenses"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_margin="20dp"
+            style="@style/ToolTipText"
+            android:textSize="24sp"
+            android:fontFamily="@font/ubuntu_bold"/>
+
+        <ImageView
+            android:id="@+id/underline_1"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_margin="20dp"
+            app:layout_constraintTop_toBottomOf="@id/tooltip_daily_expenses"
+            android:src="@drawable/under_line"
+            app:tint="@color/light_gray"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/today_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_constraintTop_toBottomOf="@id/underline_1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/tooltip_past_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/past_expenses"
+            app:layout_constraintTop_toBottomOf="@id/today_recycler"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_margin="20dp"
+            style="@style/ToolTipText"
+            android:textSize="24sp"
+            android:fontFamily="@font/ubuntu_bold"/>
+
+        <ImageView
+            android:id="@+id/underline_2"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_margin="20dp"
+            app:layout_constraintTop_toBottomOf="@id/tooltip_past_expenses"
+            android:src="@drawable/under_line"
+            app:tint="@color/light_gray"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/past_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_constraintTop_toBottomOf="@id/underline_2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

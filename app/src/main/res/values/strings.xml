@@ -42,4 +42,6 @@
     <string name="too_short_name">Too short expense name!</string>
     <string name="make_sure_amount">Make sure you typed the amount right!</string>
     <string name="price">The amount must be  greater than 0</string>
+    <string name="today_expenses">Today expenses</string>
+    <string name="past_expenses">Past expenses</string>
 </resources>

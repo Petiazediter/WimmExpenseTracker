@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
+import com.codecool.wimmexpensetracker.home_fragment.HomeFragment.Companion.formatTo2Decimals
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Expense
@@ -102,11 +103,14 @@ class HomeFragment : Fragment() {
 
         viewModel.currentMonthExpense?.observe(viewLifecycleOwner,{ expenses ->
             allExpenses?.text = "${expenses.size} " + resources.getString(R.string.expenses)
-            totalExpense?.text = resources.getString(R.string.monthly_total) + "$${df.format(expenses.map{it.amount}.sum())}"
+            totalExpense?.text = resources.getString(R.string.monthly_total) + "$${expenses.map{it.amount}.sum().formatTo2Decimals()}"
         })
 
         viewModel.allExpenses?.observe(viewLifecycleOwner,{ expenses ->
-            monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 ) df.format(expenses.map{it.amount}.average()) else 0}"
+            monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 ) 
+                // This is wrong! We need to get the average monthly
+                expenses.map{it.amount}.average().toFloat().formatTo2Decimals() 
+            else 0}"
         })
     }
 
