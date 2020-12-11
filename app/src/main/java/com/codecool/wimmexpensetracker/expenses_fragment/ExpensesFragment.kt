@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.new_expense_activity.NewExpenseActivity
 import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
@@ -13,6 +14,9 @@ import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 
 
 class ExpensesFragment : Fragment(), ActivityButtonListener {
+
+    private var todayExpensesRecyclerView : RecyclerView? = null
+    private var pastExpensesRecyclerView : RecyclerView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -35,4 +39,14 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
         startActivity(intent)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindViews()
+
+    }
+
+    private fun bindViews(){
+        todayExpensesRecyclerView = view?.findViewById(R.id.today_recycler)
+        pastExpensesRecyclerView = view?.findViewById(R.id.past_recycler)
+    }
 }
