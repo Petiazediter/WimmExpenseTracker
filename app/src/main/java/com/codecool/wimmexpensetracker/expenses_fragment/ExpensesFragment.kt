@@ -42,7 +42,11 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindViews()
+        createAdapter()
+    }
 
+    private fun createAdapter(){
+        
     }
 
     private fun bindViews(){
