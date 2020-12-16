@@ -4,15 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.codecool.wimmexpensetracker.mvvm.repositories.NewExpenseRepository
 import com.codecool.wimmexpensetracker.room_db.Expense
 
-class NewExpenseViewModel : ViewModel() {
-
-    private var mNewExpenseRepository : NewExpenseRepository? = null
-
-    fun init(){
-        mNewExpenseRepository = NewExpenseRepository.getInstance()
-    }
-
+class NewExpenseViewModel(val repo : NewExpenseRepository) : ViewModel() {
     fun addExpense(expense : Expense){
-        mNewExpenseRepository?.addExpense(expense)
+        repo.addExpense(expense)
     }
 }

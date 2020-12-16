@@ -30,8 +30,8 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
     private var cancelButton: Button? = null
 
     private val categoriesViewModel: CategoriesViewModel by viewModel()
+    private val newExpenseViewModel: NewExpenseViewModel by viewModel()
 
-    private lateinit var newExpenseViewModel: NewExpenseViewModel
     private lateinit var recyclerAdapter: NewExpenseRecyclerAdapter
 
     private var previewName: TextView? = null
@@ -45,15 +45,7 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_expense)
-
-        //categoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
-        newExpenseViewModel = ViewModelProvider(this)[NewExpenseViewModel::class.java]
-
-        newExpenseViewModel.init()
-        //categoriesViewModel.init(this)
-
         categoryChoosed = null
-
         bindViews()
         setUpRecycler()
         setRecyclerData()
