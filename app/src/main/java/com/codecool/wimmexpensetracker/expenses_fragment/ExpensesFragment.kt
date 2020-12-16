@@ -25,15 +25,12 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
 
     private var todayExpensesRecyclerView : RecyclerView? = null
     private var pastExpensesRecyclerView : RecyclerView? = null
-    private lateinit var expensesViewModel : ExpenseFragmentViewModel
+    private val expensesViewModel : ExpenseFragmentViewModel by viewModel()
     private val categoriesViewModel: CategoriesViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
-        expensesViewModel = ViewModelProvider(this).get(ExpenseFragmentViewModel::class.java)
-        expensesViewModel.init(viewLifecycleOwner)
 
         return inflater.inflate(R.layout.fragment_expenses, container, false)
     }
@@ -84,7 +81,7 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
     }
 
     private fun loadExpenses(pastAdapter : ExpenseAdapter, todayAdapter : ExpenseAdapter){
-        val expenses = expensesViewModel.allExpenses
+        val expenses = expensesViewModel.getAllExpenses(viewLifecycleOwner)
         expenses?.observe(viewLifecycleOwner,{
             Toast.makeText(context, "Expenses : ${it.size}",Toast.LENGTH_SHORT).show()
             val partition = it.partition { expense ->
