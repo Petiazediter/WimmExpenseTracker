@@ -70,7 +70,7 @@
                 style="@style/CustomEditText"
                 android:hint="@string/daily_budget"
                 android:drawableStart="@drawable/ic_baseline_attach_money_24"
-                android:inputType="numberDecimal"/>
+                android:enabled="false"/>
 
         </LinearLayout>
 

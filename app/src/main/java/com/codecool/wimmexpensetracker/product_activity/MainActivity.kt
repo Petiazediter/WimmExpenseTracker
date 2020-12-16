@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.categories_fragment.CategoriesFragment
+import com.codecool.wimmexpensetracker.data.LocalDatas
 import com.codecool.wimmexpensetracker.expenses_fragment.ExpensesFragment
 import com.codecool.wimmexpensetracker.home_fragment.HomeFragment
 import com.codecool.wimmexpensetracker.settings_fragment.SettingsFragment
@@ -14,6 +15,10 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity(), MainActivityContractor {
+
+    companion object{
+        lateinit var localDatas: LocalDatas
+    }
 
     private val tabs = listOf(
         FragmentWrapper(HomeFragment(), R.string.home_fragment_title, R.drawable.ic_baseline_home_24, R.color.color_lightBlue),
@@ -25,6 +30,8 @@ class MainActivity : AppCompatActivity(), MainActivityContractor {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        localDatas = LocalDatas.getInstance(applicationContext,this@MainActivity)
 
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         val viewPager2 = findViewById<ViewPager2>(R.id.view_pager_2)
