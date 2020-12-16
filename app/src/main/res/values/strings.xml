@@ -50,4 +50,5 @@
     <string name="expense_settings">Expense Settings</string>
     <string name="wage">Monthly wage</string>
     <string name="save">How much do you want to save?</string>
+    <string name="data_save">The given data saves automaticly.</string>
 </resources>
