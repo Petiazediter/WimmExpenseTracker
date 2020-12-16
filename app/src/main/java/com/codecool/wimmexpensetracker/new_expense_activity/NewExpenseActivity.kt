@@ -16,6 +16,7 @@ import com.codecool.wimmexpensetracker.mvvm.view_models.CategoriesViewModel
 import com.codecool.wimmexpensetracker.mvvm.view_models.NewExpenseViewModel
 import com.codecool.wimmexpensetracker.room_db.Category
 import com.codecool.wimmexpensetracker.room_db.Expense
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 import java.util.*
 
@@ -28,7 +29,8 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
     private var submitButton: Button? = null
     private var cancelButton: Button? = null
 
-    private lateinit var categoriesViewModel: CategoriesViewModel
+    private val categoriesViewModel: CategoriesViewModel by viewModel()
+
     private lateinit var newExpenseViewModel: NewExpenseViewModel
     private lateinit var recyclerAdapter: NewExpenseRecyclerAdapter
 
@@ -44,11 +46,11 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_expense)
 
-        categoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
+        //categoriesViewModel = ViewModelProvider(this)[CategoriesViewModel::class.java]
         newExpenseViewModel = ViewModelProvider(this)[NewExpenseViewModel::class.java]
 
         newExpenseViewModel.init()
-        categoriesViewModel.init(this)
+        //categoriesViewModel.init(this)
 
         categoryChoosed = null
 
@@ -110,7 +112,7 @@ class NewExpenseActivity : AppCompatActivity(), NewExpensesRecyclerContractor {
 
 
     private fun setRecyclerData() {
-        categoriesViewModel.allCategories?.observe(this, {
+        categoriesViewModel.getAllCategories(this).observe(this, {
             recyclerAdapter.list = it
             recyclerAdapter.notifyDataSetChanged()
         })

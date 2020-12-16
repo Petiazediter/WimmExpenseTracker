@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,7 @@ import com.codecool.wimmexpensetracker.mvvm.view_models.ExpenseFragmentViewModel
 import com.codecool.wimmexpensetracker.new_expense_activity.NewExpenseActivity
 import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
-import com.codecool.wimmexpensetracker.room_db.Category
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.time.LocalDateTime
 
 
@@ -27,16 +26,14 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
     private var todayExpensesRecyclerView : RecyclerView? = null
     private var pastExpensesRecyclerView : RecyclerView? = null
     private lateinit var expensesViewModel : ExpenseFragmentViewModel
-    private lateinit var categoriesViewModel: CategoriesViewModel
+    private val categoriesViewModel: CategoriesViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
         expensesViewModel = ViewModelProvider(this).get(ExpenseFragmentViewModel::class.java)
-        categoriesViewModel = ViewModelProvider(this).get(CategoriesViewModel::class.java)
         expensesViewModel.init(viewLifecycleOwner)
-        categoriesViewModel.init(viewLifecycleOwner)
 
         return inflater.inflate(R.layout.fragment_expenses, container, false)
     }
@@ -65,7 +62,7 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
 
 
     private fun createAdapter(){
-        val categories = categoriesViewModel.allCategories
+        val categories = categoriesViewModel.getAllCategories(viewLifecycleOwner)
 
         context?.let{
             val pastAdapter = ExpenseAdapter(layoutInflater,it, listOf(), listOf())
@@ -76,7 +73,7 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
             pastExpensesRecyclerView?.adapter = pastAdapter
             pastExpensesRecyclerView?.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 
-            categories?.observe(viewLifecycleOwner, { list ->
+            categories.observe(viewLifecycleOwner, { list ->
                 if (list.isNotEmpty()) {
                     pastAdapter.categories = list
                     todayAdapter.categories = list

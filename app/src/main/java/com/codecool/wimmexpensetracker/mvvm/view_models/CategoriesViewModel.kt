@@ -6,20 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.codecool.wimmexpensetracker.mvvm.repositories.CategoriesRepository
 import com.codecool.wimmexpensetracker.room_db.Category
 
-class CategoriesViewModel : ViewModel() {
-
-    private var mCategoriesRepository : CategoriesRepository? = null
-    var allCategories : MutableLiveData<List<Category>>? = null
-
-    fun init(lifecycleOwner: LifecycleOwner){
-        if ( mCategoriesRepository == null){
-            mCategoriesRepository = CategoriesRepository.getInstance(lifecycleOwner)
-        }
-        allCategories = mCategoriesRepository?.getCategories()
+class CategoriesViewModel(val repo : CategoriesRepository) : ViewModel() {
+    fun deleteCategory(category : Category){
+        repo.removeCategory(category)
     }
 
-    fun deleteCategory(category: Category){
-        mCategoriesRepository?.removeCategory(category)
+    fun getAllCategories(lifecycleOwner: LifecycleOwner) : MutableLiveData<List<Category>> {
+        return repo.getCategories(lifecycleOwner)
     }
-
 }

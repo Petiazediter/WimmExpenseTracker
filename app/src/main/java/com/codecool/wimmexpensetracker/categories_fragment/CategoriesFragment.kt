@@ -19,12 +19,14 @@ import com.codecool.wimmexpensetracker.new_category_activity.AddCategoryActivity
 import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Category
+import org.koin.android.viewmodel.compat.ScopeCompat.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class CategoriesFragment : Fragment(), ActivityButtonListener,RecyclerAdapterContractor {
 
     private var categoryRecyclerView: RecyclerView? = null
     private lateinit var recyclerAdapter : RecyclerAdapter
-    private lateinit var viewModel : CategoriesViewModel
+    private val viewModel : CategoriesViewModel by viewModel()
 
     override fun onButtonPressed() {
         val intent = Intent(context,AddCategoryActivity::class.java)
@@ -42,13 +44,10 @@ class CategoriesFragment : Fragment(), ActivityButtonListener,RecyclerAdapterCon
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(CategoriesViewModel::class.java)
-        viewModel.init(viewLifecycleOwner)
-
         bindViews()
         setUpRecycler()
 
-        viewModel.allCategories?.observe(viewLifecycleOwner, {
+        viewModel.getAllCategories(viewLifecycleOwner).observe(viewLifecycleOwner, {
             setRecyclerData(it)
         })
     }

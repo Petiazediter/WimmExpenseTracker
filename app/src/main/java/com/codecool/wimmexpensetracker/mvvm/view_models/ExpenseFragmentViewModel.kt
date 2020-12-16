@@ -6,16 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.codecool.wimmexpensetracker.mvvm.repositories.ExpenseFragmentRepository
 import com.codecool.wimmexpensetracker.room_db.Expense
 
-class ExpenseFragmentViewModel : ViewModel(){
+class ExpenseFragmentViewModel(val repo : ExpenseFragmentRepository) : ViewModel(){
 
-    private var mExpenseFragmentRepository : ExpenseFragmentRepository? = null
-    public var allExpenses : MutableLiveData<List<Expense>>? = null
-
-    fun init(lifecycleOwner: LifecycleOwner){
-        if ( mExpenseFragmentRepository == null) {
-            mExpenseFragmentRepository = ExpenseFragmentRepository.getInstance(lifecycleOwner)
-            allExpenses = mExpenseFragmentRepository?.getAllExpenses()
-        }
+    fun getAllExpenses(lifecycleOwner : LifecycleOwner) : MutableLiveData<List<Expense>> {
+        return repo.getAllExpenses(lifecycleOwner)
     }
 
 }
