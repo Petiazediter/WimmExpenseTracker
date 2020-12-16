@@ -1,5 +1,6 @@
 package com.codecool.wimmexpensetracker.new_category_activity
 
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -85,7 +86,9 @@ class AddCategoryActivity : AppCompatActivity() {
             for (item in it.children) {
                 if (item is ImageView) {
                     item.setOnClickListener {
-                        previewColor?.background = item.background
+                        if ( item.background is ColorDrawable){
+                            previewColor?.setBackgroundColor( (item.background as ColorDrawable).color)
+                        }
                     }
                 }
             }
