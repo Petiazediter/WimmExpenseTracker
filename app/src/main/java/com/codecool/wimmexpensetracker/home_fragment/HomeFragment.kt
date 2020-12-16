@@ -112,10 +112,6 @@ class HomeFragment : Fragment() {
                  expenses.groupBy { "${it.year} && ${it.month}" }
                     .map{it.value.sumByDouble{expense-> expense.amount.toDouble()}}.average().toFloat().formatTo2Decimals() 
             else 0}"
-
-
-
-
         })
     }
 

@@ -45,4 +45,6 @@
     <string name="today_expenses">Today expenses</string>
     <string name="past_expenses">Past expenses</string>
     <string name="category_deleted">Category deleted.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
