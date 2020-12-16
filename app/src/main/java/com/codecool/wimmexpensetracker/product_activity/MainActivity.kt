@@ -9,6 +9,7 @@ import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.categories_fragment.CategoriesFragment
 import com.codecool.wimmexpensetracker.expenses_fragment.ExpensesFragment
 import com.codecool.wimmexpensetracker.home_fragment.HomeFragment
+import com.codecool.wimmexpensetracker.settings_fragment.SettingsFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -17,7 +18,8 @@ class MainActivity : AppCompatActivity(), MainActivityContractor {
     private val tabs = listOf(
         FragmentWrapper(HomeFragment(), R.string.home_fragment_title, R.drawable.ic_baseline_home_24, R.color.color_lightBlue),
         FragmentWrapper(ExpensesFragment(), R.string.expenses_fragment_title, R.drawable.ic_baseline_account_balance_wallet_24, R.color.color_lightGreen ),
-        FragmentWrapper(CategoriesFragment(), R.string.categories, R.drawable.ic_baseline_category_24, R.color.color_lightRed)
+        FragmentWrapper(CategoriesFragment(), R.string.categories, R.drawable.ic_baseline_category_24, R.color.color_lightRed),
+        FragmentWrapper(SettingsFragment(), R.string.settings_fragment_title, R.drawable.ic_baseline_settings_24, R.color.color_lightYellow)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
