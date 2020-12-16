@@ -10,7 +10,7 @@ class LocalDatas() {
     var monthlyWage : MutableLiveData<Float> = MutableLiveData(0f)
     var monthlySave : MutableLiveData<Float> = MutableLiveData(5f)
 
-    constructor(context: Context, lifecycleOwner: LifecycleOwner) {
+    constructor(context: Context, lifecycleOwner: LifecycleOwner) : this(){
         monthlyWage.value = getSharedPreferences(context).getFloat(SHARED_PREF_WAGE_NAME, 500f)
         monthlySave.value = getSharedPreferences(context).getFloat(SHARED_PREF_SAVE_NAME,5f)
 

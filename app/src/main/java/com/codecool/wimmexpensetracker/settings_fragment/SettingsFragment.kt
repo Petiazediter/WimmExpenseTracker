@@ -36,21 +36,23 @@ class SettingsFragment : Fragment(),ActivityButtonListener {
         dailyBudget = view?.findViewById(R.id.et_daily_max)
 
         monthlyWageEditText = view?.findViewById(R.id.et_my_wage)
-        monthlyWageEditText?.addTextChangedListener({
+        monthlyWageEditText?.addTextChangedListener({ charSequence: CharSequence?, i: Int, i1: Int, i2: Int ->
             if ( monthlyWageEditText!!.text.isNullOrEmpty() ) {
                 MainActivity.localDatas.monthlyWage.value = 0f
             }else{
-                MainActivity.localDatas.monthlyWage.value = monthlyWageEditText!!.text.toString().toFloat()
+                MainActivity.localDatas.monthlyWage.value = textToFloat(monthlyWageEditText!!.text.toString()).toFloat()
             }
+            setUpDailyBudget()
         })
 
         monthlySaveEditText = view?.findViewById(R.id.et_my_save)
-        monthlySaveEditText?.addTextChangedListener({
+        monthlySaveEditText?.addTextChangedListener({ charSequence: CharSequence?, i: Int, i1: Int, i2: Int ->
             if ( monthlySaveEditText!!.text.isNullOrEmpty() ) {
                 MainActivity.localDatas.monthlySave.value = 0f
             }else{
-                MainActivity.localDatas.monthlySave.value = monthlySaveEditText!!.text.toString().toFloat()
+                MainActivity.localDatas.monthlySave.value = textToFloat(monthlySaveEditText!!.text.toString()).toFloat()
             }
+            setUpDailyBudget()
         })
     }
 
@@ -62,10 +64,18 @@ class SettingsFragment : Fragment(),ActivityButtonListener {
                 setSubMenuTitle(context.getString(R.string.home_fragment_title))
             }
 
-            monthlySaveEditText?.setText( MainActivity.localDatas.monthlySave.value.toString())
-            monthlyWageEditText?.setText(MainActivity.localDatas.monthlyWage.value.toString())
+            var saveText = textToFloat(MainActivity.localDatas.monthlySave.value.toString())
+            var wageText = textToFloat(MainActivity.localDatas.monthlyWage.value.toString())
+
+            monthlySaveEditText?.setText(saveText)
+            monthlyWageEditText?.setText(wageText)
             setUpDailyBudget()
         }
+    }
+
+    private fun textToFloat(s : String) : String{
+        if ( !s.contains('.')) return s + ".0"
+        else return s
     }
 
     private fun setUpDailyBudget(){

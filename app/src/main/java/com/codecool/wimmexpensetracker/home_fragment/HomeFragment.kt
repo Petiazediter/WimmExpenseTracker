@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
+import com.codecool.wimmexpensetracker.product_activity.MainActivity
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Expense
 import com.github.mikephil.charting.charts.BarChart
@@ -87,7 +88,8 @@ class HomeFragment : Fragment() {
         remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
         viewModel.getUserExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, {
             processTexts(
-                SharedPreferenceController.getBudget(),
+               // (MainActivity.localDatas.monthlySave.value - ,dailyBudget?.setText(((wage - save)/12).toString())
+                (MainActivity.localDatas.monthlyWage.value!! - MainActivity.localDatas.monthlySave.value!!)/12,
                 it.map { expense -> expense.amount }.sum(),
                 it
             )
@@ -146,12 +148,10 @@ class HomeFragment : Fragment() {
     private fun processTexts(budget: Float, expenseSum: Float, list : List<Expense>){
         monthDateTV?.text = "${LocalDateTime.now().month.name},${LocalDateTime.now().year}"
         allExpenses?.text = "${list.size} " + resources.getString(R.string.expenses)
-        dailyBudget?.text = "$${budget}"
+        dailyBudget?.text = "$${budget.formatTo2Decimals()}"
         dailyTotal?.text = "$${expenseSum}"
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.CEILING
         val remainingMon = (budget - expenseSum)
-        remainingMoney?.text = "$${df.format(remainingMon)}"
+        remainingMoney?.text = "$${remainingMon.formatTo2Decimals()}"
         if ( remainingMon < 0){
             remainingMoney?.setTextColor(resources.getColor(R.color.color_lightRed, context?.theme))
         }
