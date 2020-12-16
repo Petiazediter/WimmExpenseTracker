@@ -47,4 +47,7 @@
     <string name="category_deleted">Category deleted.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="expense_settings">Expense Settings</string>
+    <string name="wage">Monthly wage</string>
+    <string name="save">How much do you want to save?</string>
 </resources>
