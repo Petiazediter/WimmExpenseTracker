@@ -6,16 +6,14 @@ import android.os.Bundle
 import android.widget.*
 import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.CategoryColor
 import com.codecool.wimmexpensetracker.mvvm.view_models.AddCategoryActivityViewModel
 import com.codecool.wimmexpensetracker.room_db.Category
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class AddCategoryActivity : AppCompatActivity() {
-
-    // Known bug : The image views shrink after you changing the text in the editText.
 
     private var editText : EditText? = null
     private var gridLayout : GridLayout? = null
@@ -26,14 +24,11 @@ class AddCategoryActivity : AppCompatActivity() {
     private var createButton : Button? = null
     private var cancelButton : Button? = null
 
-    private lateinit var mViewModel : AddCategoryActivityViewModel
+    private val mViewModel : AddCategoryActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_category)
-
-        mViewModel = ViewModelProvider(this).get(AddCategoryActivityViewModel::class.java)
-        mViewModel.init(this)
 
         bindViews()
         setUpGridLayout()
