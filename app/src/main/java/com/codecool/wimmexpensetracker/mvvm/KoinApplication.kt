@@ -2,10 +2,7 @@ package com.codecool.wimmexpensetracker.mvvm
 
 import android.app.Application
 import com.codecool.wimmexpensetracker.mvvm.repositories.*
-import com.codecool.wimmexpensetracker.mvvm.view_models.AddCategoryActivityViewModel
-import com.codecool.wimmexpensetracker.mvvm.view_models.CategoriesViewModel
-import com.codecool.wimmexpensetracker.mvvm.view_models.ExpenseFragmentViewModel
-import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
+import com.codecool.wimmexpensetracker.mvvm.view_models.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.android.viewmodel.dsl.viewModel
@@ -13,17 +10,22 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 val appModule = module {
-    // Repos
+
+    viewModel { AddCategoryActivityViewModel(get()) }
     single<AddCategoryActivityRepository> {AddCategoryActivityRepositoryImplementation()}
+
+    viewModel { CategoriesViewModel(get()) }
     single<CategoriesRepository>{CategoriesRepositoryImp()}
+
+    viewModel { ExpenseFragmentViewModel(get()) }
     single<ExpenseFragmentRepository>{ExpenseFragmentRepositoryImp()}
+
+    viewModel { HomeFragmentViewModel(get()) }
     single<HomeFragmentRepository>{HomeFragmentRepositoryImp()}
 
-    // ViewModels
-    viewModel { AddCategoryActivityViewModel(get()) }
-    viewModel { CategoriesViewModel(get()) }
-    viewModel { ExpenseFragmentViewModel(get()) }
-    viewModel { HomeFragmentViewModel(get())}
+    viewModel { NewExpenseViewModel(get())}
+    single<NewExpenseRepository>{NewExpenseRepositoryImpl()}
+
 }
 
 class KoinApplication : Application(){
