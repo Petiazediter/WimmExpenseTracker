@@ -6,20 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.adapters.RecyclerAdapter
 import com.codecool.wimmexpensetracker.adapters.RecyclerAdapterContractor
-import com.codecool.wimmexpensetracker.data.CategoryColor
 import com.codecool.wimmexpensetracker.mvvm.view_models.CategoriesViewModel
+import com.codecool.wimmexpensetracker.mvvm.view_models.RecyclerAdapterViewModel
 import com.codecool.wimmexpensetracker.new_category_activity.AddCategoryActivity
 import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Category
-import org.koin.android.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CategoriesFragment : Fragment(), ActivityButtonListener,RecyclerAdapterContractor {
@@ -27,6 +24,7 @@ class CategoriesFragment : Fragment(), ActivityButtonListener,RecyclerAdapterCon
     private var categoryRecyclerView: RecyclerView? = null
     private lateinit var recyclerAdapter : RecyclerAdapter
     private val viewModel : CategoriesViewModel by viewModel()
+    private val recyclerAdapterViewModel : RecyclerAdapterViewModel by viewModel()
 
     override fun onButtonPressed() {
         val intent = Intent(context,AddCategoryActivity::class.java)
@@ -58,7 +56,7 @@ class CategoriesFragment : Fragment(), ActivityButtonListener,RecyclerAdapterCon
 
     private fun setUpRecycler(){
         context?.let{
-            recyclerAdapter = RecyclerAdapter(listOf(), layoutInflater, it,this, viewLifecycleOwner)
+            recyclerAdapter = RecyclerAdapter(listOf(), layoutInflater, it,this, viewLifecycleOwner,recyclerAdapterViewModel)
             categoryRecyclerView?.adapter = recyclerAdapter
             categoryRecyclerView?.layoutManager = LinearLayoutManager(it,LinearLayoutManager.VERTICAL, false)
         }

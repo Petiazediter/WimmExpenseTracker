@@ -26,6 +26,8 @@ val appModule = module {
     viewModel { NewExpenseViewModel(get())}
     single<NewExpenseRepository>{NewExpenseRepositoryImpl()}
 
+    viewModel { RecyclerAdapterViewModel(get())}
+    single<RecyclerAdapterRepository>{RecyclerAdapterRepositoryImp()}
 }
 
 class KoinApplication : Application(){

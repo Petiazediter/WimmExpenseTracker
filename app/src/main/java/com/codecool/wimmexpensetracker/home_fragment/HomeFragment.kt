@@ -10,10 +10,8 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
-import com.codecool.wimmexpensetracker.home_fragment.HomeFragment.Companion.formatTo2Decimals
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Expense
@@ -22,7 +20,6 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import org.koin.android.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.math.RoundingMode
 import java.text.DecimalFormat

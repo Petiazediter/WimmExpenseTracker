@@ -9,20 +9,27 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.CategoryColor
 import com.codecool.wimmexpensetracker.home_fragment.HomeFragment.Companion.formatTo2Decimals
-import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
 import com.codecool.wimmexpensetracker.mvvm.view_models.RecyclerAdapterViewModel
 import com.codecool.wimmexpensetracker.room_db.Category
 import java.time.LocalDateTime
 
-class RecyclerAdapter (var list : List<Category>, private val layoutInflater: LayoutInflater, private val context : Context, private val view : RecyclerAdapterContractor,private val lifecycleOwner: LifecycleOwner) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
+class RecyclerAdapter (var list : List<Category>,
+                        private val layoutInflater: LayoutInflater,
+                        private val context : Context,
+                        private val view : RecyclerAdapterContractor,
+                        private val lifecycleOwner: LifecycleOwner ,
+                        private val viewModel : RecyclerAdapterViewModel)
+    : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
-    class ViewHolderClass(itemView : View, val context: Context, private val lifecycleOwner: LifecycleOwner) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolderClass(itemView : View,
+                          val context: Context,
+                          private val lifecycleOwner: LifecycleOwner,
+                          private val viewModel : RecyclerAdapterViewModel)
+        : RecyclerView.ViewHolder(itemView) {
 
         private lateinit var colorContainer : ImageView
         private lateinit var categoryName : TextView
@@ -32,7 +39,7 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
 
         private lateinit var parentView : RecyclerAdapterContractor
 
-        private lateinit var viewModel : RecyclerAdapterViewModel
+        //private val viewModel : RecyclerAdapterViewModel by viewModel()
 
         @SuppressLint("SetTextI18n")
         fun init(category: Category, view : RecyclerAdapterContractor){
@@ -46,9 +53,8 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
                 parentView.onItemDelteted(category)
             }
 
-            viewModel = ViewModelProvider(context as ViewModelStoreOwner).get(RecyclerAdapterViewModel::class.java)
-            viewModel.init(lifecycleOwner)
-            viewModel.getExpensesByCategory(category)?.observe(lifecycleOwner,{ list ->
+
+            viewModel.getExpensesByCategory(lifecycleOwner,category)?.observe(lifecycleOwner,{ list ->
                 totalExpense.text = context.resources.getString(R.string.total_expenses) + list.map{it.amount}.sum().formatTo2Decimals()
                 currentMonthExpense.text = context.resources.getString(R.string.current_month_expenses) + (list.filter{ item -> item.year == LocalDateTime.now().year && item.month == LocalDateTime.now().monthValue }.map{it.amount}.sum()).formatTo2Decimals()
             })
@@ -73,7 +79,11 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass = ViewHolderClass( layoutInflater.inflate(R.layout.category_recycler_row,parent,false), context,lifecycleOwner)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass = ViewHolderClass(
+        layoutInflater.inflate(R.layout.category_recycler_row, parent,false),
+        context,
+        lifecycleOwner,
+        viewModel)
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val category : Category = list[position]

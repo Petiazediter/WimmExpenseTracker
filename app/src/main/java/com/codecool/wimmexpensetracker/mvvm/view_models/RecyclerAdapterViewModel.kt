@@ -7,16 +7,8 @@ import com.codecool.wimmexpensetracker.mvvm.repositories.RecyclerAdapterReposito
 import com.codecool.wimmexpensetracker.room_db.Category
 import com.codecool.wimmexpensetracker.room_db.Expense
 
-class RecyclerAdapterViewModel : ViewModel() {
+class RecyclerAdapterViewModel(private val repo : RecyclerAdapterRepository) : ViewModel() {
 
-    private var mRecyclerAdapterRepository : RecyclerAdapterRepository? = null
-
-    fun init(lifecycleOwner: LifecycleOwner){
-        if ( mRecyclerAdapterRepository == null){
-            mRecyclerAdapterRepository = RecyclerAdapterRepository.getInstance(lifecycleOwner)
-        }
-    }
-
-    fun getExpensesByCategory( category : Category) : MutableLiveData<List<Expense>>? = mRecyclerAdapterRepository?.getExpensesByCategoryId(category.uId)
+    fun getExpensesByCategory( lifecycleOwner: LifecycleOwner,category : Category) : MutableLiveData<List<Expense>>? = repo.getExpensesByCategoryId(lifecycleOwner,category.uId)
 
 }
