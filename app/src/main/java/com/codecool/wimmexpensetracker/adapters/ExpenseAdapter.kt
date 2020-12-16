@@ -53,18 +53,18 @@ class ExpenseAdapter(private val layoutInflater: LayoutInflater,
         }
 
         private fun setCategoryColor() {
-            if (category != null) {
-                    colorContainer.setBackgroundColor(
-                        when (category!!.colorId) {
+            category?.let{
+                    colorContainer.setBackgroundColor(context.resources.getColor(
+                        when (it.colorId) {
                             CategoryColor.RED -> R.color.color_lightRed
                             CategoryColor.PINK -> R.color.color_lightPink
                             CategoryColor.GREEN -> R.color.color_lightGreen
                             CategoryColor.BLUE -> R.color.color_lightBlue
                             CategoryColor.YELLOW -> R.color.color_lightYellow
                         }
-                    )
+                    ))
                 categoryNameTextView.text = category!!.categoryName
-            } else {
+            } ?: run{
                 colorContainer.setBackgroundColor(context.resources.getColor( R.color.color_lightRed,context.theme))
                 categoryNameTextView.text = context.getString(R.string.category_deleted)
             }
