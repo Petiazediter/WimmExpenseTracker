@@ -107,12 +107,15 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.allExpenses?.observe(viewLifecycleOwner,{ expenses ->
-            monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 ) 
+             monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 )
                 // This is wrong! We need to get the average monthly
-                expenses.filter{it.year == LocalDateTime.now().year && 
-                        it.month == LocalDateTime.now().monthValue}
-                    .map{it.amount}.average().toFloat().formatTo2Decimals() 
+                 expenses.groupBy { "${it.year} && ${it.month}" }
+                    .map{it.value.sumByDouble{expense-> expense.amount.toDouble()}}.average().toFloat().formatTo2Decimals() 
             else 0}"
+
+
+
+
         })
     }
 
