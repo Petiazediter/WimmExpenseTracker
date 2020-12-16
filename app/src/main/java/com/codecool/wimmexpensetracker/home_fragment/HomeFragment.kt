@@ -22,6 +22,8 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import org.koin.android.viewmodel.compat.ScopeCompat.viewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.time.LocalDateTime
@@ -53,7 +55,7 @@ class HomeFragment : Fragment() {
     private var totalExpense : TextView? = null
     private var monthlyAverage : TextView? = null
 
-    lateinit var viewModel : HomeFragmentViewModel
+    val viewModel : HomeFragmentViewModel by viewModel()
     lateinit var anyChartView : BarChart
 
     override fun onCreateView(
@@ -67,9 +69,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
-        viewModel.init(viewLifecycleOwner)
         bindViews(view)
         setUpTexts()
     }
@@ -89,7 +88,7 @@ class HomeFragment : Fragment() {
         df.roundingMode = RoundingMode.CEILING
 
         remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
-        viewModel.userExpenses?.observe(viewLifecycleOwner, {
+        viewModel.getUserExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, {
             processTexts(
                 SharedPreferenceController.getBudget(),
                 it.map { expense -> expense.amount }.sum(),
@@ -97,16 +96,16 @@ class HomeFragment : Fragment() {
             )
         })
 
-        viewModel.lastMonthExpenses?.observe(viewLifecycleOwner, { hash ->
+        viewModel.getLastMonthExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, { hash ->
             setUpChart(hash.map { Pair(it.key, it.value) })
         })
 
-        viewModel.currentMonthExpense?.observe(viewLifecycleOwner,{ expenses ->
+        viewModel.getCurrentMonthExpense(viewLifecycleOwner).observe(viewLifecycleOwner,{ expenses ->
             allExpenses?.text = "${expenses.size} " + resources.getString(R.string.expenses)
             totalExpense?.text = resources.getString(R.string.monthly_total) + "$${expenses.map{it.amount}.sum().formatTo2Decimals()}"
         })
 
-        viewModel.allExpenses?.observe(viewLifecycleOwner,{ expenses ->
+        viewModel.getAllExpenses(viewLifecycleOwner).observe(viewLifecycleOwner,{ expenses ->
              monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 )
                 // This is wrong! We need to get the average monthly
                  expenses.groupBy { "${it.year} && ${it.month}" }

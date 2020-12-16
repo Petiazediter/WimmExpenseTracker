@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.codecool.wimmexpensetracker.mvvm.repositories.HomeFragmentRepository
 import com.codecool.wimmexpensetracker.room_db.Expense
 
-class HomeFragmentViewModel : ViewModel() {
+class HomeFragmentViewModel(val repo : HomeFragmentRepository) : ViewModel() {
 
-    private lateinit var mHomeFragmentRepository : HomeFragmentRepository
+   /* private lateinit var mHomeFragmentRepository : HomeFragmentRepository
     var userExpenses : MutableLiveData<List<Expense>>? = null
     var lastMonthExpenses : MutableLiveData<HashMap<Int,List<Expense>>>? = null
     var allExpenses : MutableLiveData<List<Expense>>? = null
@@ -23,6 +23,22 @@ class HomeFragmentViewModel : ViewModel() {
         lastMonthExpenses = mHomeFragmentRepository.getLastFiveMonthExpenses()
         allExpenses = mHomeFragmentRepository.getAllExpenses()
         currentMonthExpense = mHomeFragmentRepository.getCurrentMonthExpenses()
+    } */
+
+    fun getUserExpenses(lifecycleOwner : LifecycleOwner) : MutableLiveData<List<Expense>>{
+        return repo.getExpenses(lifecycleOwner)
+    }
+
+    fun getLastMonthExpenses(lifecycleOwner: LifecycleOwner) : MutableLiveData<HashMap<Int,List<Expense>>>{
+        return repo.getLastFiveMonthExpenses(lifecycleOwner)
+    }
+
+    fun getAllExpenses(lifecycleOwner: LifecycleOwner ) : MutableLiveData<List<Expense>>{
+        return repo.getAllExpenses(lifecycleOwner)
+    }
+
+    fun getCurrentMonthExpense ( lifecycleOwner: LifecycleOwner ) : MutableLiveData<List<Expense>>{
+        return repo.getCurrentMonthExpenses(lifecycleOwner)
     }
 
 }
