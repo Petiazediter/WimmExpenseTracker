@@ -13,7 +13,6 @@ import com.codecool.wimmexpensetracker.room_db.Category
 import com.codecool.wimmexpensetracker.room_db.Expense
 
 class ExpenseAdapter(private val layoutInflater: LayoutInflater,
-                     private val context : Context,
                      private var items : List<Expense>,
                      private var categories : List<Category> )
     : RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
