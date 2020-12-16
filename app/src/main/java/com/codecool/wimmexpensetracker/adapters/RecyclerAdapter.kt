@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
@@ -77,6 +78,9 @@ class RecyclerAdapter (var list : List<Category>, private val layoutInflater: La
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val category : Category = list[position]
         holder.init(category,view)
+        holder.itemView.setOnClickListener {
+            Toast.makeText(context,category.uId,Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getItemCount(): Int = list.size
