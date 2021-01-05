@@ -30,6 +30,14 @@ import java.time.Month
 
 class HomeFragment : Fragment() {
 
+    companion object{
+        fun Float.formatTo2Decimals() : String {
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+            return df.format(this).toString()
+        }
+    }
+
     private val colors = listOf(
         R.color.color_lightBlue,
         R.color.color_lightGreen,
@@ -53,7 +61,7 @@ class HomeFragment : Fragment() {
     private var totalExpense : TextView? = null
     private var monthlyAverage : TextView? = null
 
-    val viewModel : HomeFragmentViewModel by viewModel()
+    private val viewModel : HomeFragmentViewModel by viewModel()
     lateinit var anyChartView : BarChart
 
     override fun onCreateView(
@@ -68,27 +76,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindViews(view)
-        setUpTexts()
-    }
-
-    companion object{
-        fun Float.formatTo2Decimals() : String {
-            val df = DecimalFormat("#.##")
-            df.roundingMode = RoundingMode.CEILING
-            return df.format(this).toString()
-        }
     }
 
     @SuppressLint("SetTextI18n")
     private fun setUpTexts(){
 
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.CEILING
-
         remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
+
+
         viewModel.getUserExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, {
             processTexts(
-               // (MainActivity.localDatas.monthlySave.value - ,dailyBudget?.setText(((wage - save)/12).toString())
                 (MainActivity.localDatas.monthlyWage.value!! - MainActivity.localDatas.monthlySave.value!!)/12,
                 it.map { expense -> expense.amount }.sum(),
                 it
@@ -178,6 +175,16 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        setPageTitle()
+        setUpTexts()
+        remainingBudgetDate?.alpha = 0f
+        pairAnimation(remainingMoney, listOf(remainingBudget, remainingBudgetDate))
+        pairAnimation(dailyTotal, listOf(dailyTotalSub))
+        pairAnimation(dailyBudget, listOf(dailyBudgetSub))
+        pairAnimation(monthDateTV,listOf(allExpenses,monthlyAverage,totalExpense))
+    }
+
+    private fun setPageTitle(){
         // Page title setter
         if ( activity is MainActivityContractor){
             (activity as MainActivityContractor).let{
@@ -185,11 +192,6 @@ class HomeFragment : Fragment() {
                 it.setSubMenuTitle( resources.getString(R.string.settings_fragment_title))
             }
         }
-        remainingBudgetDate?.alpha = 0f
-        pairAnimation(remainingMoney, listOf(remainingBudget, remainingBudgetDate))
-        pairAnimation(dailyTotal, listOf(dailyTotalSub))
-        pairAnimation(dailyBudget, listOf(dailyBudgetSub))
-        pairAnimation(monthDateTV,listOf(allExpenses,monthlyAverage,totalExpense))
     }
 
     override fun onPause() {

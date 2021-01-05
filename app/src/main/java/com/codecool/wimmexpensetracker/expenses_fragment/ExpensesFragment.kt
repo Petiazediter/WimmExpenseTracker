@@ -82,8 +82,7 @@ class ExpensesFragment : Fragment(), ActivityButtonListener {
 
     private fun loadExpenses(pastAdapter : ExpenseAdapter, todayAdapter : ExpenseAdapter){
         val expenses = expensesViewModel.getAllExpenses(viewLifecycleOwner)
-        expenses?.observe(viewLifecycleOwner,{
-            Toast.makeText(context, "Expenses : ${it.size}",Toast.LENGTH_SHORT).show()
+        expenses.observe(viewLifecycleOwner,{
             val partition = it.partition { expense ->
                 expense.year == LocalDateTime.now().year &&
                         expense.month == LocalDateTime.now().monthValue &&
