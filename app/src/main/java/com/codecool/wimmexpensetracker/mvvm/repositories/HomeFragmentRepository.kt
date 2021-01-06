@@ -8,5 +8,5 @@ interface HomeFragmentRepository {
     fun getExpenses(lifecycleOwner: LifecycleOwner) : MutableLiveData<List<Expense>>
     fun getCurrentMonthExpenses(lifecycleOwner: LifecycleOwner) : MutableLiveData<List<Expense>>
     fun getAllExpenses(lifecycleOwner: LifecycleOwner) : MutableLiveData<List<Expense>>
-    fun getLastFiveMonthExpenses(lifecycleOwner: LifecycleOwner): MutableLiveData<HashMap<Int,List<Expense>>>
+    fun getLastFiveMonthExpenses(lifecycleOwner: LifecycleOwner): MutableLiveData<List<HomeFragmentRepositoryImp.DatedExpense>>
 }

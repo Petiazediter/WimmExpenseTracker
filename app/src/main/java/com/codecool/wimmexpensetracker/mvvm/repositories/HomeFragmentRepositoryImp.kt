@@ -10,7 +10,7 @@ class HomeFragmentRepositoryImp() : HomeFragmentRepository{
     private lateinit var dataSet : List<Expense>
     private var currentMonthExpenses : List<Expense> = ArrayList()
     private var allExpenses : List<Expense> = ArrayList()
-    private var lastMonthDataset : HashMap<Int,List<Expense>> = HashMap<Int,List<Expense>>()
+    private var lastMonthDataset = ArrayList<DatedExpense>()
 
 
     override fun getExpenses(lifecycleOwner: LifecycleOwner) : MutableLiveData<List<Expense>>{
@@ -54,7 +54,7 @@ class HomeFragmentRepositoryImp() : HomeFragmentRepository{
         return data
     }
 
-    override fun getLastFiveMonthExpenses(lifecycleOwner: LifecycleOwner): MutableLiveData<HashMap<Int,List<Expense>>> {
+    /*override fun getLastFiveMonthExpenses(lifecycleOwner: LifecycleOwner): MutableLiveData<HashMap<Int,List<Expense>>> {
         val data = MutableLiveData<HashMap<Int,List<Expense>>>()
         data.value = hashMapOf()
 
@@ -76,5 +76,33 @@ class HomeFragmentRepositoryImp() : HomeFragmentRepository{
         }
 
         return data
+    } */
+
+    override fun getLastFiveMonthExpenses(lifecycleOwner: LifecycleOwner): MutableLiveData<List<DatedExpense>> {
+        val data = MutableLiveData<List<DatedExpense>>()
+        lastMonthDataset = arrayListOf()
+        data.value = listOf()
+
+        val dateNow = Pair(LocalDateTime.now().year, LocalDateTime.now().monthValue)
+        val searchedMonths = ArrayList<SimpleDate>()
+        for ( i in 0 until 5) {
+            searchedMonths.add(
+                    SimpleDate(if ( dateNow.second - i > 0) dateNow.first else dateNow.first - 1,
+                        if ( dateNow.second - i > 0) (dateNow.second - i) else 13 - i ))
+        }
+
+        for (value in searchedMonths){
+            AppDatabase.getDatabase(null)?.let{ appDatabase ->
+                appDatabase.ExpenseDao().getExpensesByMonth(value.year,value.month).observe(lifecycleOwner,{
+                    lastMonthDataset.add(DatedExpense("${value.year}${ if ( value.month <= 9) "0" + value.month else value.month}".toInt(),it))
+                    data.value = lastMonthDataset
+                })
+            }
+        }
+
+        return data
     }
+
+    data class DatedExpense(val id : Int, val expenses : List<Expense>)
+    data class SimpleDate(val year : Int, val month : Int)
 }

@@ -2,6 +2,7 @@ package com.codecool.wimmexpensetracker.home_fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.data.SharedPreferenceController
+import com.codecool.wimmexpensetracker.mvvm.repositories.HomeFragmentRepositoryImp
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
 import com.codecool.wimmexpensetracker.product_activity.MainActivity
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
@@ -64,11 +66,7 @@ class HomeFragment : Fragment() {
     private val viewModel : HomeFragmentViewModel by viewModel()
     lateinit var anyChartView : BarChart
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
@@ -76,82 +74,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindViews(view)
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun setUpTexts(){
-
-        remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
-
-
-        viewModel.getUserExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, {
-            processTexts(
-                (MainActivity.localDatas.monthlyWage.value!! - MainActivity.localDatas.monthlySave.value!!)/12,
-                it.map { expense -> expense.amount }.sum(),
-                it
-            )
-        })
-
-        viewModel.getLastMonthExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, { hash ->
-            setUpChart(hash.map { Pair(it.key, it.value) })
-        })
-
-        viewModel.getCurrentMonthExpense(viewLifecycleOwner).observe(viewLifecycleOwner,{ expenses ->
-            allExpenses?.text = "${expenses.size} " + resources.getString(R.string.expenses)
-            totalExpense?.text = resources.getString(R.string.monthly_total) + "$${expenses.map{it.amount}.sum().formatTo2Decimals()}"
-        })
-
-        viewModel.getAllExpenses(viewLifecycleOwner).observe(viewLifecycleOwner,{ expenses ->
-             monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 )
-                // This is wrong! We need to get the average monthly
-                 expenses.groupBy { "${it.year} && ${it.month}" }
-                    .map{it.value.sumByDouble{expense-> expense.amount.toDouble()}}.average().toFloat().formatTo2Decimals() 
-            else 0}"
-        })
-    }
-
-    private fun setUpChart(list: List<Pair<Int, List<Expense>>>){
-        anyChartView.setDrawValueAboveBar(true)
-        anyChartView.setMaxVisibleValueCount(5)
-        anyChartView.description.isEnabled = false
-
-        anyChartView.xAxis.isEnabled = false
-
-        val yAxis = anyChartView.axisLeft
-        yAxis.axisMinimum = 0f
-        yAxis.setDrawGridLines(false)
-        yAxis.spaceTop = 15f
-
-        anyChartView.axisRight.isEnabled = false
-
-
-        val barDataSetList = ArrayList<IBarDataSet>()
-        list.forEachIndexed{ index,pair ->
-            val barEntryList = ArrayList<BarEntry>()
-            barEntryList.add ( BarEntry(index.toFloat(),pair.second.map { it.amount }.sum()) )
-            val barDataSet = BarDataSet(barEntryList,Month.of(pair.first).name)
-            barDataSetList.add(barDataSet)
-            context?.let{
-                barDataSet.color = ContextCompat.getColor(it,colors[index])
-            }
-        }
-        val barData = BarData(barDataSetList)
-        anyChartView.data = barData
-
-        anyChartView.invalidate()
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun processTexts(budget: Float, expenseSum: Float, list : List<Expense>){
-        monthDateTV?.text = "${LocalDateTime.now().month.name},${LocalDateTime.now().year}"
-        allExpenses?.text = "${list.size} " + resources.getString(R.string.expenses)
-        dailyBudget?.text = "$${budget.formatTo2Decimals()}"
-        dailyTotal?.text = "$${expenseSum}"
-        val remainingMon = (budget - expenseSum)
-        remainingMoney?.text = "$${remainingMon.formatTo2Decimals()}"
-        if ( remainingMon < 0){
-            remainingMoney?.setTextColor(resources.getColor(R.color.color_lightRed, context?.theme))
-        }
     }
 
     private fun bindViews(view: View){
@@ -176,12 +98,89 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         setPageTitle()
+        startAnimations()
         setUpTexts()
-        remainingBudgetDate?.alpha = 0f
+    }
+
+    private fun startAnimations(){
         pairAnimation(remainingMoney, listOf(remainingBudget, remainingBudgetDate))
         pairAnimation(dailyTotal, listOf(dailyTotalSub))
         pairAnimation(dailyBudget, listOf(dailyBudgetSub))
         pairAnimation(monthDateTV,listOf(allExpenses,monthlyAverage,totalExpense))
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setUpTexts(){
+
+        remainingBudgetDate?.text = "${LocalDateTime.now().month.name}, ${LocalDateTime.now().dayOfMonth}, ${LocalDateTime.now().year}"
+
+        viewModel.getUserExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, {
+            processTexts(
+                (MainActivity.localDatas.monthlyWage.value!! - MainActivity.localDatas.monthlySave.value!!)/12,
+                it.map { expense -> expense.amount }.sum(),
+                it
+            )
+        })
+
+        viewModel.getLastMonthExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, {
+            setUpChart(it)
+        })
+
+        viewModel.getCurrentMonthExpense(viewLifecycleOwner).observe(viewLifecycleOwner,{ expenses ->
+            allExpenses?.text = "${expenses.size} " + resources.getString(R.string.expenses)
+            totalExpense?.text = resources.getString(R.string.monthly_total) + "$${expenses.map{it.amount}.sum().formatTo2Decimals()}"
+        })
+
+        viewModel.getAllExpenses(viewLifecycleOwner).observe(viewLifecycleOwner,{ expenses ->
+             monthlyAverage?.text = resources.getString(R.string.monthly_average) + "$${ if ( expenses.size > 0 )
+                // This is wrong! We need to get the average monthly
+                 expenses.groupBy { "${it.year} && ${it.month}" }
+                    .map{it.value.sumByDouble{expense-> expense.amount.toDouble()}}.average().toFloat().formatTo2Decimals() 
+            else 0}"
+        })
+    }
+
+    private fun setUpChart(list: List<HomeFragmentRepositoryImp.DatedExpense>){
+        anyChartView.setDrawValueAboveBar(true)
+        anyChartView.setMaxVisibleValueCount(5)
+        anyChartView.description.isEnabled = false
+        anyChartView.xAxis.isEnabled = false
+        val yAxis = anyChartView.axisLeft
+        yAxis.axisMinimum = 0f
+        yAxis.setDrawGridLines(false)
+        yAxis.spaceTop = 15f
+        anyChartView.axisRight.isEnabled = false
+        val barDataSetList = ArrayList<IBarDataSet>()
+
+        list.sortedBy{it.id}.forEachIndexed{ index,item ->
+            val barEntryList = ArrayList<BarEntry>()
+            Log.d("setUpChart","$index :"+ item.id.toString())
+            barEntryList.add(BarEntry(index.toFloat(),item.expenses.map{it.amount}.sum()))
+            val barDataSet = BarDataSet(barEntryList,Month.of(item.id.toString().substring(4).toInt()).name)
+            barDataSetList.add(barDataSet)
+            context?.let{
+                barDataSet.color = ContextCompat.getColor(it,colors[index])
+            }
+        }
+
+        Log.d("setUpChart", "---------------")
+
+        val barData = BarData(barDataSetList)
+        anyChartView.data = barData
+        anyChartView.invalidate()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun processTexts(budget: Float, expenseSum: Float, list : List<Expense>){
+        monthDateTV?.text = "${LocalDateTime.now().month.name},${LocalDateTime.now().year}"
+        allExpenses?.text = "${list.size} " + resources.getString(R.string.expenses)
+        dailyBudget?.text = "$${budget.formatTo2Decimals()}"
+        dailyTotal?.text = "$${expenseSum}"
+        val remainingMon = (budget - expenseSum)
+        remainingMoney?.text = "$${remainingMon.formatTo2Decimals()}"
+        if ( remainingMon < 0){
+            remainingMoney?.setTextColor(resources.getColor(R.color.color_lightRed, context?.theme))
+        }
     }
 
     private fun setPageTitle(){
