@@ -113,7 +113,9 @@ class SettingsFragment : Fragment(),ActivityButtonListener {
 
 
     override fun onButtonPressed() {
-        // go to home fragment
+        if (activity is MainActivityContractor){
+            (activity as MainActivityContractor).changeToFragment(MainActivity.HOME_FRAGMENT_PAGE)
+        }
     }
 
 }

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.codecool.wimmexpensetracker.R
 import com.codecool.wimmexpensetracker.mvvm.repositories.HomeFragmentRepositoryImp
 import com.codecool.wimmexpensetracker.mvvm.view_models.HomeFragmentViewModel
+import com.codecool.wimmexpensetracker.product_activity.ActivityButtonListener
 import com.codecool.wimmexpensetracker.product_activity.MainActivity
 import com.codecool.wimmexpensetracker.product_activity.MainActivityContractor
 import com.codecool.wimmexpensetracker.room_db.Expense
@@ -28,7 +29,7 @@ import java.time.LocalDateTime
 import java.time.Month
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ActivityButtonListener {
 
     companion object {
         fun Float.formatTo2Decimals(): String {
@@ -243,4 +244,10 @@ class HomeFragment : Fragment() {
         })
     }
 
+
+    override fun onButtonPressed() {
+        if (activity is MainActivityContractor){
+            (activity as MainActivityContractor).changeToFragment(MainActivity.SETTINGS_FRAGMENT_PAGE)
+        }
+    }
 }
