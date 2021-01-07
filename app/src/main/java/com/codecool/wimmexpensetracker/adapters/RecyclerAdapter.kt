@@ -47,6 +47,7 @@ class RecyclerAdapter (var list : List<Category>,
             bindViews()
 
             setSideColor(category.colorId)
+
             categoryName.text = category.categoryName
 
             deleteButton.setOnClickListener {

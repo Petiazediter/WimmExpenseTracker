@@ -1,5 +1,6 @@
 package com.codecool.wimmexpensetracker.mvvm.repositories
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.codecool.wimmexpensetracker.room_db.AppDatabase
@@ -94,7 +95,19 @@ class HomeFragmentRepositoryImp() : HomeFragmentRepository{
         for (value in searchedMonths){
             AppDatabase.getDatabase(null)?.let{ appDatabase ->
                 appDatabase.ExpenseDao().getExpensesByMonth(value.year,value.month).observe(lifecycleOwner,{
-                    lastMonthDataset.add(DatedExpense("${value.year}${ if ( value.month <= 9) "0" + value.month else value.month}".toInt(),it))
+
+                    val id = "${value.year}${if (value.month <=9) "0" + value.month else value.month}".toInt()
+                    val index = getExpenseById(id)
+                    if ( index >= 0) {
+                        lastMonthDataset[index].expenses = it;
+                    }else {
+                        lastMonthDataset.add(
+                            DatedExpense(
+                                "${value.year}${if (value.month <= 9) "0" + value.month else value.month}".toInt(),
+                                it
+                            )
+                        )
+                    }
                     data.value = lastMonthDataset
                 })
             }
@@ -103,6 +116,14 @@ class HomeFragmentRepositoryImp() : HomeFragmentRepository{
         return data
     }
 
-    data class DatedExpense(val id : Int, val expenses : List<Expense>)
+    private fun getExpenseById(id : Int) : Int {
+        val filteredTable = lastMonthDataset.filter{it.id == id}
+        if (filteredTable.isNullOrEmpty()){
+            return -1
+        }
+        return lastMonthDataset.indexOf(filteredTable[0])
+    }
+
+    data class DatedExpense(val id : Int, var expenses : List<Expense>)
     data class SimpleDate(val year : Int, val month : Int)
 }

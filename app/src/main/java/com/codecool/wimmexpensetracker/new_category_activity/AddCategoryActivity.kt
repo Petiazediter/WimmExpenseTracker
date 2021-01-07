@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import com.codecool.wimmexpensetracker.R
@@ -23,7 +24,7 @@ class AddCategoryActivity : AppCompatActivity() {
 
     private var createButton : Button? = null
     private var cancelButton : Button? = null
-
+    private var colorId = CategoryColor.RED
     private val mViewModel : AddCategoryActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,22 +36,13 @@ class AddCategoryActivity : AppCompatActivity() {
         setUpEditText()
         cancelButton?.setOnClickListener { finish() }
         addListenerToCreateButton()
-
+        colorId = CategoryColor.RED
     }
 
     private fun addListenerToCreateButton() {
         createButton?.setOnClickListener {
             categoryName?.let { ctName ->
                 previewColor?.let { pvColor ->
-                    var colorId = CategoryColor.RED
-                    when (pvColor.background) {
-                        (findViewById<ImageView>(R.id.color_yellow).background) -> colorId = CategoryColor.YELLOW
-                        (findViewById<ImageView>(R.id.color_blue).background) -> colorId = CategoryColor.BLUE
-                        (findViewById<ImageView>(R.id.color_green).background) -> colorId = CategoryColor.GREEN
-                        (findViewById<ImageView>(R.id.color_pink).background) -> colorId = CategoryColor.PINK
-                        (findViewById<ImageView>(R.id.color_red).background) -> colorId = CategoryColor.RED
-                    }
-
                     if (ctName.text.toString().isNotEmpty() && ctName.text.toString().isNotBlank() && ctName.text.length > 4) {
                         val category = Category(
                                 uId = UUID.randomUUID().toString(),
@@ -83,6 +75,13 @@ class AddCategoryActivity : AppCompatActivity() {
                     item.setOnClickListener {
                         if ( item.background is ColorDrawable){
                             previewColor?.setBackgroundColor( (item.background as ColorDrawable).color)
+                            when ( (item.background as ColorDrawable).color){
+                                ContextCompat.getColor(applicationContext, R.color.color_lightPink) -> colorId = CategoryColor.PINK
+                                ContextCompat.getColor(applicationContext, R.color.color_lightYellow) -> colorId = CategoryColor.YELLOW
+                                ContextCompat.getColor(applicationContext, R.color.color_lightRed) -> colorId = CategoryColor.RED
+                                ContextCompat.getColor(applicationContext, R.color.color_lightBlue) -> colorId = CategoryColor.BLUE
+                                ContextCompat.getColor(applicationContext, R.color.color_lightGreen) -> colorId = CategoryColor.GREEN
+                            }
                         }
                     }
                 }
