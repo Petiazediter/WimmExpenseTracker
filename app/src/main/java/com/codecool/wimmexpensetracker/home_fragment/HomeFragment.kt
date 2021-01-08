@@ -120,7 +120,7 @@ class HomeFragment : Fragment(), ActivityButtonListener {
 
         viewModel.getUserExpenses(viewLifecycleOwner).observe(viewLifecycleOwner, {
             processTexts(
-                (MainActivity.localDatas.monthlyWage.value!! - MainActivity.localDatas.monthlySave.value!!) / 12,
+                (MainActivity.localDatas.monthlyWage.value!! - MainActivity.localDatas.monthlySave.value!!) / 30,
                 it.map { expense -> expense.amount }.sum(),
                 it
             )

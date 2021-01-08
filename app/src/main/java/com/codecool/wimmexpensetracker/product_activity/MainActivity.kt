@@ -10,6 +10,7 @@ import com.codecool.wimmexpensetracker.categories_fragment.CategoriesFragment
 import com.codecool.wimmexpensetracker.data.LocalDatas
 import com.codecool.wimmexpensetracker.expenses_fragment.ExpensesFragment
 import com.codecool.wimmexpensetracker.home_fragment.HomeFragment
+import com.codecool.wimmexpensetracker.room_db.AppDatabase
 import com.codecool.wimmexpensetracker.settings_fragment.SettingsFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

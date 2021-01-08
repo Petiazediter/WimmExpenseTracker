@@ -97,7 +97,7 @@ class SettingsFragment : Fragment(),ActivityButtonListener {
 
     private fun calculateDailyBudget(monthlySave : Float?, monthlyWage : Float?){
         if ( monthlySave != null && monthlyWage != null) {
-            var dailySave = (monthlyWage - monthlySave) / 12
+            var dailySave = (monthlyWage - monthlySave) / 30
             dailyBudget?.setText ( dailySave.toString())
         }
     }
