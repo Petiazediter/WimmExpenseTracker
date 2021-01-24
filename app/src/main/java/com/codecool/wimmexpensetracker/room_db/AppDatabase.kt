@@ -28,54 +28,5 @@ abstract class AppDatabase : RoomDatabase(){
 
             return instance
         }
-
-
-
-        public fun createExpenses(db : AppDatabase){
-            db.ExpenseDao().insertExpense(
-                Expense("euid1","Electricity bill (2020.12)", 2020,12,1,30.00f,"uid2")
-            )
-            db.ExpenseDao().insertExpense(
-                Expense("euid2","Fuel (10l)", 2020,12,4,15.40f,"uid5")
-            )
-            db.ExpenseDao().insertExpense(
-                Expense("euid3","Rent (2021.1)", 2021,1,2,120.50f,"uid1")
-            )
-            db.ExpenseDao().insertExpense(
-                Expense("euid4","Insurance (2021.1)", 2021,1,1,30.00f,"uid4")
-            )
-            db.ExpenseDao().insertExpense(
-                Expense("euid5","Netflix (2020.11)", 2020,11,14,10.00f,"uid6")
-            )
-            db.ExpenseDao().insertExpense(
-                Expense("euid6","Android course", 2020,10,5,5.00f,"uid6")
-            )
-        }
-
-        public fun createCategories(db : AppDatabase){
-            db.CategoryDao().insertCategory(
-                Category("uid1","Rent",CategoryColor.RED)
-            )
-
-            db.CategoryDao().insertCategory(
-                Category("uid2","Rates and Taxes",CategoryColor.YELLOW)
-            )
-
-            db.CategoryDao().insertCategory(
-                Category("uid3","Repairs",CategoryColor.BLUE)
-            )
-
-            db.CategoryDao().insertCategory(
-                Category("uid4","Insurance",CategoryColor.PINK)
-            )
-
-            db.CategoryDao().insertCategory(
-                Category("uid5","Power and Fuel",CategoryColor.GREEN)
-            )
-
-            db.CategoryDao().insertCategory(
-                Category("uid6", "Hobby & Chilling", CategoryColor.GREEN)
-            )
-        }
     }
 }

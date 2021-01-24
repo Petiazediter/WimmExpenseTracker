@@ -28,6 +28,6 @@
 
     <style name="ToolTipText">
         <item name="android:textColor">@color/med_gray</item>
-        <item name="android:fontFamily">@font/ubuntu_regular</item>
+        <item name="android:fontFamily">@font/fancy</item>
     </style>
 </resources>

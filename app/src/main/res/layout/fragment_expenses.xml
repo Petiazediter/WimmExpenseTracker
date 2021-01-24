@@ -20,7 +20,7 @@
             android:layout_margin="20dp"
             style="@style/ToolTipText"
             android:textSize="24sp"
-            android:fontFamily="@font/ubuntu_bold"/>
+            android:fontFamily="@font/fancy"/>
 
         <ImageView
             android:id="@+id/underline_1"
@@ -50,7 +50,7 @@
             android:layout_margin="20dp"
             style="@style/ToolTipText"
             android:textSize="24sp"
-            android:fontFamily="@font/ubuntu_bold"/>
+            android:fontFamily="@font/fancy"/>
 
         <ImageView
             android:id="@+id/underline_2"

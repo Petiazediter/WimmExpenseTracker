@@ -39,7 +39,7 @@
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/ubuntu_regular"
+        android:fontFamily="@font/fancy"
         android:text="@string/product_name"
         android:textColor="@color/med_gray"
         android:textSize="24sp"

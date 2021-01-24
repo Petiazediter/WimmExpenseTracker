@@ -20,7 +20,7 @@
             android:id="@+id/menu_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu_bold"
+            android:fontFamily="@font/fancy"
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/dark_gray"
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:layout_marginEnd="10dp"
-            android:fontFamily="@font/ubuntu_regular"
+            android:fontFamily="@font/eleganto"
             android:gravity="center"
             android:textColor="@color/dark_gray"
             tools:text="Settings" />
