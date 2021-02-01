@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ApplicationBaseSettings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".new_expense_activity.NewExpenseActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/details_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tooltip_details"
+                    style="@style/ToolTipText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:text="@string/details"
+                    android:textSize="19sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1.4dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@drawable/under_line"
+                    app:tint="@color/light_gray" />
+
+                <EditText
+                    android:id="@+id/title_et"
+                    style="@style/CustomEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/eleganto"
+                    android:drawableStart="@drawable/ic_baseline_subtitles_24"
+                    android:hint="@string/name" />
+
+                <EditText
+                    android:id="@+id/amount_et"
+                    style="@style/CustomEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:fontFamily="@font/eleganto"
+                    android:drawableStart="@drawable/ic_baseline_attach_money_24"
+                    android:hint="@string/amount"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/category_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_container">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/ToolTipText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:text="@string/category"
+                    android:textSize="19sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1.4dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@drawable/under_line"
+                    app:tint="@color/light_gray" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/preview_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/category_container">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/ToolTipText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/preview"
+                    android:textSize="19sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="10dp"
+                    android:src="@drawable/under_line"
+                    app:tint="@color/light_gray" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/preview_color"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_percent=".09" />
+
+                    <TextView
+                        android:id="@+id/preview_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/eleganto"
+                        android:textSize="19sp"
+                        app:layout_constraintLeft_toRightOf="@id/preview_color"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Name" />
+
+                    <TextView
+                        android:id="@+id/preview_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eleganto"
+                        tools:text="@string/preview_amount"
+                        android:textColor="@color/color_lightGreen"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/preview_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eleganto"
+                        app:layout_constraintLeft_toLeftOf="@id/preview_name"
+                        app:layout_constraintTop_toBottomOf="@id/preview_name"
+                        tools:text="Category name" />
+
+                    <TextView
+                        android:id="@+id/preview_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/eleganto"
+                        android:text="@string/preview_date"
+                        app:layout_constraintLeft_toLeftOf="@id/preview_name"
+                        app:layout_constraintTop_toBottomOf="@id/preview_category" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/button_finish"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_lightGreen"
+            android:text="@string/create_expense"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:fontFamily="@font/eleganto"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preview_container"
+            app:layout_constraintWidth_percent=".5" />
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_lightRed"
+            android:text="@string/cancel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:fontFamily="@font/eleganto"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_finish"
+            app:layout_constraintWidth_percent=".5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
